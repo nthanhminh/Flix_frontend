@@ -1,0 +1,80 @@
+@media only screen and (min-width: 320px) and (max-width: 935px) {
+    .select_ticket_item{
+        width: 60% !important;
+        text-align: center;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center;
+    }
+}
+
+.select_ticket_header{
+    padding-top: 32px;
+    padding-bottom: 32px;
+    font-size: 32px;
+    font-weight: bold;
+    font-family: 'Inter';
+    color: #333;
+    text-align: center;
+}
+
+.select_ticket_list{
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+}
+
+.select_ticket_item{
+    width: 25%;
+    border: 1px solid pink;
+    padding: 18px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.select_ticket_name{
+    font-size: 24px;
+    font-weight: bold;
+    font-family: 'Inter';
+    color: #333;
+    letter-spacing: 1.5px;
+}
+
+.select_ticket_type{
+    font-size: 18px;
+    font-weight: bold;
+    font-family: 'Inter';
+    color: plum;
+    letter-spacing: 1.8px;
+}
+
+.select_ticket_price{
+    font-size: 18px;
+    font-weight: bold;
+    font-family: 'Inter';
+    color: #333;
+    letter-spacing: 1.8px;
+}
+
+.select_ticket_counter{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    background-color: #ccc;
+    /* width: 15%; */
+    width: fit-content;
+    padding: 2px;
+}
+
+.select_ticket_click{
+    flex: 1;
+    padding: 2px 8px;
+    transition: all 0.25s linear;
+}
+.select_ticket_click:hover{
+    background-color: plum;
+    color: #FFF;
+    cursor: pointer;
+}

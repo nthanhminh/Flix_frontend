@@ -1,0 +1,102 @@
+.container{
+    width: 100%;
+    padding-bottom: 128px;
+    position: relative;
+}
+
+.title{
+    text-align: center;
+    font-size: 32px;
+    font-family: 'Inter';
+    font-weight: bold;
+    letter-spacing: 1.5px;
+}
+
+.food_list{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 32px;
+    justify-content: center;
+}
+
+.food_item{
+    padding-top: 32px;
+    padding-bottom: 32px;
+}
+
+.food_item_title{
+    width: 100%;
+    text-align: center;
+    font-size: 24px;
+    font-family: 'Inter';
+    font-weight: bold;
+    color: plum;
+    padding-bottom: 32px;
+}
+
+.food_item_container{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.food_item_info{
+    width: 33.33%;
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+}
+
+.food_item_info_image{
+    width: 50%;
+}
+
+.image{
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+.food_item_info_text{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.food_item_info_name{
+    font-size: 20px;
+    font-weight: bold;
+    font-family: 'Inter';
+}
+
+.food_item_info_detail{
+    font-size: 18px;
+    font-weight: bold;
+    font-family: 'Inter';
+    color: rgba(51, 51, 51, 0.8);
+}
+
+.food_item_info_counter_container{
+    max-width: 120px;
+    display: flex;
+    justify-content: center;
+    background-color: #ccc;
+    color: #333;
+    gap: 16px;
+}
+
+.food_item_info_counter_action{
+    flex: 1;
+    padding: 0 12px;
+    text-align: center;
+    transition: all 0.5s ease-in-out;
+}
+
+.food_item_info_counter_action:hover{
+    cursor: pointer;
+    background-color: palevioletred;
+    color: #FFF;
+}

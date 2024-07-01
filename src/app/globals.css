@@ -31,3 +31,17 @@ body {
     text-wrap: balance;
   }
 }
+
+body{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: #FFF;
+}
+
+.g_container {
+  overflow-x: hidden;
+  width: 100%;
+  height: 100vh;
+  background-color: #FFF;
+}

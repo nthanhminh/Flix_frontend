@@ -1,0 +1,92 @@
+@media only screen and (min-width: 320px) and (max-width: 400px) {
+    .food_item_info{
+        width: 100% !important;
+    }
+}
+
+@media only screen and (min-width: 400px) and (max-width: 935px) {
+    .food_item_info{
+        width: 40% !important;
+    }
+}
+
+.food_item{
+    padding-top: 32px;
+    padding-bottom: 32px;
+}
+
+.food_item_info{
+    width: 33.33%;
+    display: flex;
+    justify-content: center;
+    column-gap: 16px;
+    row-gap: 24px;
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+.food_item_info_image{
+    width: 50%;
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+.image{
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    /* border-radius: 12px; */
+    transition: all 0.5s linear;
+    border-radius: 12px;
+}
+
+.food_item_info_text{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.food_item_info_name{
+    font-size: 20px;
+    font-weight: bold;
+    font-family: 'Inter';
+    transition: all 0.25s linear;
+}
+
+.food_item_info_detail{
+    font-size: 18px;
+    font-weight: bold;
+    font-family: 'Inter';
+    color: rgba(51, 51, 51, 0.8);
+}
+
+.food_item_info_counter_container{
+    max-width: 120px;
+    display: flex;
+    justify-content: center;
+    background-color: #ccc;
+    color: #333;
+    gap: 16px;
+}
+
+.food_item_info_counter_action{
+    flex: 1;
+    padding: 0 12px;
+    text-align: center;
+    transition: all 0.5s ease-in-out;
+}
+
+.food_item_info_counter_action:hover{
+    cursor: pointer;
+    background-color: palevioletred;
+    color: #FFF;
+}
+
+.food_item_info:hover .food_item_info_name{
+    color: plum;
+}
+
+.food_item_info:hover .image{
+    scale: 1.1;
+    transform: rotateZ(5deg);
+}

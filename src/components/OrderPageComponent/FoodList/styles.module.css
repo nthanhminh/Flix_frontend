@@ -1,0 +1,32 @@
+.food_list{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 32px;
+    justify-content: center;
+}
+
+.food_item_title{
+    width: 100%;
+    text-align: center;
+    font-size: 24px;
+    font-family: 'Inter';
+    font-weight: bold;
+    color: plum;
+    padding-bottom: 32px;
+}
+
+.food_item{
+    padding-top: 32px;
+    padding-bottom: 32px;
+}
+
+.food_item_container{
+    display: flex;
+    width: 100%;
+    padding: 12px 32px;
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 32px;
+    column-gap: 18px ;
+}

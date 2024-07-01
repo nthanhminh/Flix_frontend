@@ -1,0 +1,182 @@
+@media only screen and (min-width: 320px) and (max-width: 935px) {
+    .select_ticket_list{
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center;
+    }
+
+    .seat_list{
+        position: relative;
+        /* transform: translateX(100px); */
+    }
+
+    .seat_item{
+        min-width: 27px !important;
+        font-size: 12px;
+    }
+}
+
+.showTime_header{
+    font-size: 42px;
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+    font-family: 'Inter';
+    margin-bottom: 18px;
+}
+
+.showTime_list{
+    flex-wrap: wrap;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    gap: 64px;
+    padding-bottom: 18px;
+}
+
+.showTime_item{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    justify-content: center;
+    align-items: center;
+    padding: 32px;
+    border: 2px solid pink;
+    border-radius: 18px;
+}
+
+.showTime_item_date{
+    font-size: 20px;
+    font-weight: bold;
+    font-family: 'Inter';
+}
+
+.showTime_item_day{
+    font-size: 18px;
+    font-weight: 500;
+    font-family: 'Inter';
+    letter-spacing: 1.2px;
+}
+
+.showTime_item_selected{
+    background-color: pink;
+    color: #333;
+}
+
+.detail_time_container{
+    margin-top: 18px;
+    display: flex;
+    justify-content: center;
+}
+
+.detail_time_list{
+    /* padding: 8px 32px; */
+    padding-top: 12px;
+    padding-bottom: 12px;
+    padding-left: 32px;
+    padding-right: 32px;
+    width: 50%;
+    border-radius: 15px;
+    min-height: 240px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    row-gap: 12px;
+    column-gap: 12px;
+    background-color: plum;
+}
+
+.detail_time_item{
+    padding: 12px 18px;
+    border: 1px solid #FFF;
+    color: #FFF;
+    font-weight: bold;
+    font-family: 'Inter';
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.25s linear;
+}
+
+.detail_time_item:hover{
+    border: 1px solid yellow;
+    color: yellow;
+}
+
+.detail_time_item_selected{
+    border: 1px solid yellow;
+    color: yellow;
+}
+
+/* Ticket Option Start */
+
+.select_ticket_header{
+    padding-top: 32px;
+    padding-bottom: 32px;
+    font-size: 32px;
+    font-weight: bold;
+    font-family: 'Inter';
+    color: #333;
+    text-align: center;
+}
+
+.select_ticket_list{
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+}
+/* Ticket Option End */
+
+/* seat - start */
+
+.seat_container{
+    padding: 32px 12px;
+    width: 100%;
+}
+
+.seat_header{
+    font-size: 32px;
+    font-weight: bold;
+    font-family: 'Inter';
+    color: #333;
+    letter-spacing: 1.5px;
+    text-align: center;
+}
+
+.seat_list {
+    margin-top: 32px;
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    overflow: auto;
+    align-items: center;
+    flex-direction: column;
+    row-gap: 18px;
+}
+
+.seat_row{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 18px;
+}
+
+.seat_label {
+    min-width: 32px;
+}
+
+.seat_item{
+    padding: 4px 0;
+    min-width: 48px;
+    background-color: rgba(51, 51, 51, 0.6);
+    text-align: center;
+    color: #FFF;
+    font-weight: bold;
+    border-radius: 8px;
+}
+
+/* seat - end */
+
+

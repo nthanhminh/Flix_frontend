@@ -1,0 +1,123 @@
+@media only screen and (min-width: 320px) and (max-width: 900px) {
+
+    .contact_form{
+        min-width: 360px !important;
+    }
+
+}
+
+.container{
+    width: 100%;
+    padding: 12px 18px;
+    margin-top: 16px;
+    background-color: rgb(243, 213, 243);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* display: flex; */
+}
+
+.header{
+    font-size: 36px;
+    font-family: 'Inter';
+    font-weight: bold;
+    letter-spacing: 1.5px;
+    text-align: center;
+    color: #333;
+    letter-spacing: 1.5px;
+}
+
+.contact_form{
+    border-radius: 15px;
+    padding: 18px 32px;
+    display: flex;
+    flex-direction: column;
+    /* width: 100%; */
+    min-width: 660px;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(51, 102, 204, .8);
+}
+
+.contact_header{
+    font-size: 24px;
+    font-family: 'Inter';
+    font-weight: bold;
+    letter-spacing: 1.5px;
+    text-align: center;
+    color: #FFF;
+}
+
+.item{
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 18px;
+}
+
+.name{
+    font-size: 14px;
+    font-weight: bold;
+    font-family: 'Inter';
+    color: #FFF;
+    letter-spacing: 1.2px;
+}
+
+.name_input{
+    margin-top: 16px;
+    margin-bottom: 16px;
+    width: 100%;
+}
+
+.input_name{
+    width: 100%;
+    padding: 4px 24px;
+    border-radius: 24px;
+}
+
+.email_input{
+    margin-top: 16px;
+    margin-bottom: 16px;
+    width: 100%;
+}
+
+.input_email{
+    width: 100%;
+    padding: 4px 24px;
+    border-radius: 24px;
+}
+
+.response_input{
+    margin-top: 16px;
+    margin-bottom: 16px;
+    width: 100%;
+}
+
+.input_response{
+    width: 100%;
+    min-height: 216px;
+    padding: 4px 24px;
+    border-radius: 16px;
+}
+
+.submit{
+    width: 160px;
+    padding: 12px 18px;
+    background-color: #FFF;
+    color: #333;
+    font-size: 20px;
+    font-weight: bold;
+    font-family: 'Inter';
+    text-align: center;
+    border-radius: 24px;
+    box-shadow: 0 5px 10px 3px #FFF;
+    transition: all 0.25s linear;
+}
+
+.submit:hover{
+    cursor: pointer;
+    transform: translateY(5px);
+    box-shadow: none;   
+}
