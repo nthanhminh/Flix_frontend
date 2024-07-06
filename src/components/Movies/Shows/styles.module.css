@@ -31,6 +31,7 @@
     font-weight: bold;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: #333;
+    text-transform: uppercase;
 }
 
 .list_movies{
@@ -76,6 +77,10 @@
     letter-spacing: 1.2px;
     width: 100%;
     text-align: center;
+    text-transform: uppercase;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
     /* animation: animate 1s ease-in-out 0.2s 1 forwards; */
 }
 

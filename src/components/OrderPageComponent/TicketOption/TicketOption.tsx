@@ -1,20 +1,27 @@
 'use client'
 
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import styles from './styles.module.css'
+import { Ticket } from '@/utils/typeOfResponse';
+import { GlobalContext } from '@/contexts/GlobalContext';
 
-const TicketOption = () => {
+const TicketOption = ({
+    item
+} : {
+    item: Ticket
+}) => {
 
-    const [counter, setCounter] = useState<number>(0);
-
+    const {numberOfSeats, setNumberOfSeats, setTotalPrice, totalPrice} = useContext(GlobalContext)
     const handleMinus = () => {
-        if(counter > 0) {
-            setCounter(counter-1)
+        if(numberOfSeats > 0) {
+            setNumberOfSeats(numberOfSeats-1)
+            setTotalPrice(totalPrice - parseInt(item.price))
         }
     }
 
     const hanldeAdd = () => {
-        setCounter(counter+1)
+        setNumberOfSeats(numberOfSeats+1)
+        setTotalPrice(totalPrice + parseInt(item.price))
     }
 
     
@@ -22,20 +29,20 @@ const TicketOption = () => {
     return (
         <div className={styles.select_ticket_item}>
             <div className={styles.select_ticket_name}>
-                Adult
+                {item.name}
             </div>
             <div className={styles.select_ticket_type}>
-                Single
+                {item.type}
             </div>
             <div className={styles.select_ticket_price}>
-                75,000 VNĐ
+                {item.price} VNĐ
             </div>
             <div className={styles.select_ticket_counter}>
                 <div onClick={() => {handleMinus()}} className={`${styles.select_ticket_counter_item} ${styles.select_ticket_click}` }>
                     -
                 </div>
                 <div className={styles.select_ticket_counter_item}>
-                    {counter}
+                    {numberOfSeats}
                 </div>
                 <div onClick={() => {hanldeAdd()}} className={`${styles.select_ticket_counter_item} ${styles.select_ticket_click}`}>
                     +

@@ -1,34 +1,71 @@
+'use client'
 import { error } from 'console'
 import styles from './styles.module.css'
 import Image from 'next/image'
 import ShowTime from '../OrderPageComponent/ShowTime/ShowTime'
-const OrderMovieTicket = () => {
+import { useRouter } from 'next/navigation'
+import { Food, Movie, MovieSchedule, MovieScheduleDate, Ticket } from '@/utils/typeOfResponse'
+import { use, useEffect, useState } from 'react'
+import movieApi from '@/utils/movieApi'
+import foodApi from '@/utils/foodApi'
+import FoodPage from '../OrderPageComponent/FoodPage/FoodPage'
+import orderApi from '@/utils/order'
+const OrderMovieTicket = ({id} : {id:number}) => {
+
+    const router = useRouter()
+    const [movie, setMovie] = useState<Movie | null>(null)
+    const [movieScheduleDate, setMovieScheduleDate] = useState<MovieScheduleDate | null>(null)
+    const [food, setFood] = useState<Food[]>([])
+    const [combo, setCombo] = useState<Food[]>([])
+    const [prices, setPrices] = useState<Ticket[]>([])
+    useEffect(()=>{
+        const fetchData = async(id: number) => {
+            const respone = await Promise.all([
+                movieApi.fetchMovieById(id),
+                movieApi.fetchMovieSchedule(id),
+                foodApi.getAllFood(),
+                foodApi.getAllCombo(),
+                orderApi.getTicketPrice(id)
+            ])
+            console.log("response: ", respone)
+            setMovie(respone[0])
+            setMovieScheduleDate(respone[1])
+            setFood(respone[2])
+            setCombo(respone[3])
+            setPrices(respone[4])
+        }
+
+        fetchData(id)
+    }, [])
+
+    
     return (
         <div className={styles.container}>
             <div className={styles.movie_info_container}>
                 <div className={styles.movie_info_image_container}>
-                    <Image className={styles.image} src="/movies/movie1.png" alt='' width={360} height={480} unoptimized></Image>        
+                    <Image className={styles.image} src={movie?.image!} alt='' width={360} height={480} unoptimized></Image>        
                 </div>
                 <div className={styles.movie_info}>
                     <div className={styles.movie_info__name}>
-                        Slient Land: Day One
+                        {/* Slient Land: Day One */}
+                        {movie?.name}
                     </div>
                     <div className={styles.overlay_item}>
                         <Image src="/icons/icon-tag.svg" alt="" width={24} height={24} unoptimized></Image>
                         <div className={styles.overlay_name}>
-                            Mentality
+                            {movie?.tag}
                         </div>
                     </div>
                     <div className={styles.overlay_item}>
                         <Image src="/icons/subtitle.svg" alt="" width={24} height={24} unoptimized></Image>
                         <div className={styles.overlay_name}>
-                            Việt Nam
+                            {movie?.country}
                         </div>
                     </div>
                     <div className={styles.overlay_item}>
                         <Image src="/icons/icon-clock.svg" alt="" width={24} height={24} unoptimized></Image>
                         <div className={styles.overlay_name}>
-                            100m
+                            {movie?.duration}
                         </div>
                     </div>
                     <div className={styles.movie_info_description}>
@@ -36,85 +73,31 @@ const OrderMovieTicket = () => {
                             Description
                         </div>
                         <div className={styles.movie_info_description_item}>
-                            Director: Michael Sarnoski
+                            Director: {movie?.director}
+                            
                         </div>
                         <div className={styles.movie_info_description_item}>
-                            Actors: Joseph Quinn, Alex Wolff, Djimon Hounsou
+                            Actors: {movie?.mainActors}
                         </div>
-                        <div className={styles.movie_info_description_item}>
+                        {/* <div className={styles.movie_info_description_item}>
                             Premiere: June 27, 2024
-                        </div>
+                        </div> */}
                     </div>
                     <div className={styles.movie_info_content}>
                         <div className={styles.movie_info_header}>
                             MOVIE CONTENT
                         </div>
                         <div className={styles.movie_info_description_item}>
-                            Witness the day when the whole world suddenly fell silent.
+                            {movie?.content}
                         </div>
                     </div>
                 </div>
             </div>
-            {/* <div className={styles.showTime}>
-                <div className={styles.showTime_header}>
-                    Showtimes
-                </div>
-                <div className={styles.showTime_list}>
-                    <div className={`${styles.showTime_item} ${styles.showTime_item_selected}`}>
-                        <div className={styles.showTime_item_date}>
-                            29/06
-                        </div>
-                        <div className={styles.showTime_item_day}>
-                            Saturday
-                        </div>
-                    </div>
-                    <div className={styles.showTime_item}>
-                        <div className={styles.showTime_item_date}>
-                            29/06
-                        </div>
-                        <div className={styles.showTime_item_day}>
-                            Saturday
-                        </div>
-                    </div>
-                    <div className={styles.showTime_item}>
-                        <div className={styles.showTime_item_date}>
-                            29/06
-                        </div>
-                        <div className={styles.showTime_item_day}>
-                            Saturday
-                        </div>
-                    </div>
-                </div>
-                <div className={styles.detail_time_container}>
-                        <div className={styles.detail_time_list}>
-                            <div className={styles.detail_time_item}>
-                                15:30
-                            </div>
-                            <div className={styles.detail_time_item}>
-                                15:30
-                            </div>
-                            <div className={styles.detail_time_item}>
-                                15:30
-                            </div>
-                            <div className={styles.detail_time_item}>
-                                15:30
-                            </div>
-                            <div className={styles.detail_time_item}>
-                                15:30
-                            </div>
-                            <div className={styles.detail_time_item}>
-                                15:30
-                            </div>
-                            <div className={styles.detail_time_item}>
-                                15:30
-                            </div>
-                            
-                        </div>
-                    </div>
-            </div> */}
-            <ShowTime></ShowTime>
+            
+            <ShowTime food={food} combo={combo} movieScheduleDate={movieScheduleDate ?? {'': []}} prices={prices}></ShowTime>
         </div>
     )
 }
 
 export default OrderMovieTicket
+

@@ -1,26 +1,50 @@
 'use client'
 
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import styles from './styles.module.css'
 import Image from 'next/image';
 import FoodOption from '../FoodOption/FoodOption';
 import FoodList from '../FoodList/FoodList';
 import Payment from '../Payment/Payment';
+import { Food } from '@/utils/typeOfResponse';
+import { GlobalContext } from '@/contexts/GlobalContext';
+import orderApi from '@/utils/order';
 
-const FoodPage = () => {
+const FoodPage = ({
+    foods,
+    combos,
+    seats,
+    id
+} : {
+    foods: Food[],
+    combos: Food[],
+    seats: string[],
+    id: number
+}) => {
 
-    const [counter, setCounter] = useState<number>(0);
-    
+    const {foodList, comboList, selectedSeats, totalPrice} =useContext(GlobalContext)
+
+    const handlePay = () => {
+        const respone = orderApi.orderTicket({
+            customerId: 1,
+            totalPrice: totalPrice.toString(),
+            foodIdList: foodList,
+            comboIdList: comboList,
+            movieScheduleId: id,
+            values: selectedSeats
+        })
+    }
+
     return (
         <div className={styles.container}>
             <div className={styles.title}>
                 CHOOSE CORN AND WATER
             </div>
             <div className={styles.food_list}>
-                <FoodList title={"Combo"}></FoodList>
-                <FoodList title="HotDog"></FoodList>
+                <FoodList title={"Combo"} list={combos} type={1}></FoodList>
+                <FoodList title="HotDog" list={foods} type={2}></FoodList>
             </div>
-            <Payment></Payment>
+            <Payment callback={handlePay}></Payment>
         </div>
     )
 }

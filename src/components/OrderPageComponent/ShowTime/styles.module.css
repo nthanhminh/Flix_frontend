@@ -44,6 +44,7 @@
     padding: 32px;
     border: 2px solid pink;
     border-radius: 18px;
+    cursor: pointer;
 }
 
 .showTime_item_date{
@@ -86,6 +87,21 @@
     row-gap: 12px;
     column-gap: 12px;
     background-color: plum;
+    animation: ani 0.75s ease-in-out forwards;
+}
+
+@keyframes ani {
+    from {
+        opacity: 0;
+        height: 0%;
+        transform: translateY(-25%);
+    }
+    to {
+        opacity: 1;
+        height: 100%;
+        transform: translateY(0);
+    }
+    
 }
 
 .detail_time_item{
@@ -133,6 +149,21 @@
 .seat_container{
     padding: 32px 12px;
     width: 100%;
+    animation: seat 0.75s ease-in-out forwards; 
+}
+
+@keyframes seat {
+    0%{
+        opacity: 0;
+        width: 0;
+        transform: translateX(-50%);
+    }
+
+    100% {
+        opacity: 1;
+        width: 100%;
+        transform: translate(0);
+    }
 }
 
 .seat_header{
@@ -168,6 +199,7 @@
 }
 
 .seat_item{
+    cursor: pointer;
     padding: 4px 0;
     min-width: 48px;
     background-color: rgba(51, 51, 51, 0.6);
@@ -175,6 +207,15 @@
     color: #FFF;
     font-weight: bold;
     border-radius: 8px;
+    transition: all 0.5s ease-in-out;
+}
+
+.seat_item_disable{
+    opacity: 0;
+}
+
+.seat_item_selected{
+    background-color: #D60FAE !important;
 }
 
 /* seat - end */

@@ -1,11 +1,13 @@
 import { usePathname, useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import styles from './styles.module.css'
 import Image from "next/image"
 const NavBar = () => {
     const router = useRouter()
     const pathName = usePathname()
     const [selected, setSelected] = useState<number>(0)
+    const [value, setValue] = useState<string>('');
+    const input = useRef<HTMLInputElement>(null)
 
     useEffect(() => {
         switch (pathName) {
@@ -20,6 +22,19 @@ const NavBar = () => {
                 break;
         }
     }, [pathName])
+
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setValue(event.target.value)
+    }
+
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>): void => {
+        if (event.key === 'Enter') {
+          router.push(`/search?search=${value}`)
+          if (input.current) {
+            input.current.value = '';
+          }
+        }
+      };
 
     return (
         <div className={styles.container}>
@@ -45,7 +60,7 @@ const NavBar = () => {
                 </div>
             </div>
             <div className={styles.search}>
-                <input className={styles.search_input} type="text" placeholder="Search your favourite films"/>
+                <input ref={input} onKeyDown={handleKeyDown} onChange={(event) => {handleChange(event)}} className={styles.search_input} type="text" placeholder="Search your favourite films"/>
             </div>
             <div className={styles.login}>
                 Login

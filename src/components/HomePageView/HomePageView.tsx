@@ -9,71 +9,81 @@ import AnotherService from '../HomePageViewChildren/AnotherService/AnotherServic
 import Services from '../HomePageViewChildren/Services/Services';
 import Contact from '../HomePageViewChildren/Contact/Contact';
 import { useRouter } from 'next/navigation';
+import movieApi from '@/utils/movieApi';
+import { Movie } from '@/utils/typeOfResponse';
 
 interface HomePageProps{
 }
 
 const HomePageView: FC<HomePageProps> = () => {
-
+    const [movies, setMovies] = useState<Movie[]>([])
     const router = useRouter()
 
-    const initialItems = [
-        { id: 1, bg: '/bg/bg1.jpg', name: 'XMEN', description: 'This is an interesting film' },
-        { id: 2, bg: '/bg/bg2.jpg', name: 'XMEN', description: 'This is an interesting film' },
-        { id: 3, bg: '/bg/bg3.jpg', name: 'XMEN', description: 'This is an interesting film' },
-        { id: 4, bg: '/bg/bg4.jpg', name: 'XMEN', description: 'This is an interesting film' },
-        { id: 5, bg: '/bg/bg5.jpg', name: 'XMEN', description: 'This is an interesting film' },
-        { id: 6, bg: '/bg/bg6.jpg', name: 'XMEN', description: 'This is an interesting film' },
-    ];
+    useEffect(()=>{
+        console.log(movies)
+    }, [movies])
 
-    const [items, setItems] = useState(initialItems);
+    useEffect( () => {
+        const fetchData = async () => {
+            const respone: Movie[] = await movieApi.fetchMovies()
+            const tmp: Movie[] = []
+            for(let i = 0; i < respone.length; i++){
+                if(i<6){
+                    tmp.push(respone[i])
+                }
+            }
+            setMovies(tmp)
+        }
+
+        fetchData()
+    }, [])
 
     useEffect(() => {
         setTimeout(() => {
             moveFirstToLast()
         }, 5000)
-      }, [items]);
+      }, [movies]);
 
     const moveFirstToLast = ():void => {
         console.log('Move first to last')
-        const updatedItems = [...items];
-        const firstItem = updatedItems.shift(); // Lấy phần tử đầu tiên và xóa nó khỏi mảng
+        const updatedItems = [...movies];
+        const firstItem = updatedItems.shift(); 
         if (firstItem) {
-            updatedItems.push(firstItem); // Thêm phần tử đầu tiên vào cuối mảng
+            updatedItems.push(firstItem); 
         }
-        setItems(updatedItems);
+        setMovies(updatedItems);
     };
 
     const moveLastToFirst = ():void => {
-        if (items.length <= 1) {
+        if (movies.length <= 1) {
             return;
         }
     
-        const updatedItems = [...items]; 
+        const updatedItems = [...movies]; 
         const lastItem = updatedItems.pop(); 
     
         if (lastItem) {
             updatedItems.unshift(lastItem); 
         }
     
-        setItems(updatedItems); 
+        setMovies(updatedItems); 
     }
 
     return (
         <div className={styles.container}>
             <div className={styles.slides}>
-                {items.map((item, index) => (
+                {movies.map((item, index) => (
                     <div
                         key={item.id}
                         className={styles.item}
-                        style={{ backgroundImage: `url(${item.bg})`, cursor: 'pointer' }}
+                        style={{ backgroundImage: `url(${item.image})`, cursor: 'pointer' }}
                         onClick={() => {
-                            router.push(`/movies/${index}`)
+                            router.push(`/movies/${item.id}`)
                         }}
                     >
                         <div className={`${styles.content} ${index === 0 ? styles.show : ''}`}>
                             <div className={styles.name}>{item.name}</div>
-                            <div className={styles.description}>{item.description}</div>
+                            <div className={styles.description}>{item.content}</div>
                             <div className={styles.btn}>Order Now</div>
                         </div>
                     </div>

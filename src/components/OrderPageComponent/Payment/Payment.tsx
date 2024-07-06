@@ -1,17 +1,24 @@
 'use client'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import styles from './styles.module.css'
+import { GlobalContext } from '@/contexts/GlobalContext'
 
-const Payment = () => {
+const Payment = ({
+    callback,
+} : {
+    callback: Function,
+}) => {
 
-    const [sum, setSum] = useState<number>(0)
+    const {totalPrice, setTotalPrice} = useContext(GlobalContext)
 
     return (
-        <div className={`${styles.payment_container} ${sum === 0 ? styles.disable : ''}`}>
+        <div className={`${styles.payment_container} ${totalPrice === 0 ? styles.disable : ''}`}>
             <div className={styles.payment_amount}>
-                Provisional: 35,000 VND
+                Provisional: {totalPrice} VND
             </div>
-            <div className={styles.payment_btn}>
+            <div className={styles.payment_btn} onClick={() => {
+                callback()
+            }}>
                 Pay
             </div>
         </div>

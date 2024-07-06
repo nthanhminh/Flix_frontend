@@ -1,11 +1,16 @@
+import { Combo, Food } from '@/utils/typeOfResponse'
 import FoodOption from '../FoodOption/FoodOption'
 import styles from './styles.module.css'
 
 const FoodList = (
     {
-        title
+        title,
+        list,
+        type
     } : {
-        title: string
+        title: string,
+        list: Food[] | Combo[],
+        type: number
     }
 ) => {
     return (
@@ -14,10 +19,17 @@ const FoodList = (
                     {title}
                 </div>
                 <div className={styles.food_item_container}>
+                    {/* <FoodOption />
                     <FoodOption />
                     <FoodOption />
-                    <FoodOption />
-                    <FoodOption />
+                    <FoodOption /> */}
+                    {
+                        list.map((item) => {
+                            return (
+                                <FoodOption item={item} key={item.id} type={type}/>
+                            )
+                        })
+                    }
                 </div>
             </div>
     )

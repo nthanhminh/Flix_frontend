@@ -19,6 +19,7 @@
     width: 33.33%;
     display: flex;
     justify-content: center;
+    align-items: center;
     column-gap: 16px;
     row-gap: 24px;
     overflow: hidden;
@@ -43,7 +44,11 @@
 .food_item_info_text{
     display: flex;
     flex-direction: column;
+    width: 60%;
     gap: 12px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .food_item_info_name{
@@ -83,7 +88,7 @@
 }
 
 .food_item_info:hover .food_item_info_name{
-    color: plum;
+    color: #D60FAE;
 }
 
 .food_item_info:hover .image{

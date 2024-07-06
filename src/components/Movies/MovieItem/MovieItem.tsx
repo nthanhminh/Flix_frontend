@@ -5,12 +5,10 @@ import styles from './styles.module.css'
 import Image from 'next/image';
 import { debounce } from '@/utils/debounced';
 import { useRouter } from 'next/navigation';
+import { Movie } from '@/utils/typeOfResponse';
 
 interface MovieItemProps {
-    item: {
-        src: string,
-        name: string
-    },
+    item: Movie,
     index: number,
     currentIndex: number,
 }
@@ -69,29 +67,29 @@ const MovieItem: FC<MovieItemProps> = ({item, index, currentIndex}) => {
         }}
     >
         <div className={styles.image_container}>
-            <Image ref={imageRef} className={styles.image} src={item.src} alt={item.name} width={160} height={90} unoptimized />
+            <Image ref={imageRef} className={styles.image} src={item.image} alt={item.name} width={160} height={90} unoptimized />
             <div className={styles.image_overlay} 
                 style={{height: `${height}px`}}
             >
                 <div className={styles.overlay_header}>
-                    Gia tài của ngoại
+                    {item.name}
                 </div>
                 <div className={styles.overlay_item}>
                     <Image src="/icons/icon-tag.svg" alt="" width={16} height={16}></Image>
                     <div className={styles.overlay_name}>
-                        Mentality
+                        {item.tag}
                     </div>
                 </div>
                 <div className={styles.overlay_item}>
                     <Image src="/icons/subtitle.svg" alt="" width={16} height={16}></Image>
                     <div className={styles.overlay_name}>
-                        Việt Nam
+                        {item.country}
                     </div>
                 </div>
                 <div className={styles.overlay_item}>
                     <Image src="/icons/icon-clock.svg" alt="" width={16} height={16}></Image>
                     <div className={styles.overlay_name}>
-                        100m
+                        {item.duration}
                     </div>
                 </div>
             </div>
@@ -100,7 +98,7 @@ const MovieItem: FC<MovieItemProps> = ({item, index, currentIndex}) => {
             {item.name}
         </div>
         <div className={styles.btn_container} >
-            <div className={styles.order_btn} onClick={() => {router.push(`/movies/${index}`)}}>
+            <div className={styles.order_btn} onClick={() => {router.push(`/movies`)}}>
                 Book tickets
             </div>
         </div>

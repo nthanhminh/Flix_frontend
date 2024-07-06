@@ -5,9 +5,12 @@ import styles from './styles.module.css'
 import Image from 'next/image'
 import MovieItem from '../MovieItem/MovieItem';
 import { useRouter } from 'next/navigation';
+import { Movie } from '@/utils/typeOfResponse';
+import movieApi from '@/utils/movieApi';
 const MoviesView = () => {
 
     const [currentIndex, setCurrentIndex] = useState<number>(0)
+
     const [enablePrev, setEnablePrev] = useState<boolean>(false)
     
     const [enableNext, setEnableNext] = useState<boolean>(true)
@@ -15,6 +18,10 @@ const MoviesView = () => {
     const [typeScreen, setTypeScreen] = useState<number>(0)
 
     const [multipleValue, setMultipleValue] = useState<number>(33)
+
+    const [currentMovies, setCurrentMovies] = useState<Movie[]>([])
+
+    const [comingMovies, setComingMovies] = useState<Movie[]>([])
 
     const router = useRouter()
 
@@ -30,6 +37,15 @@ const MoviesView = () => {
     
     useEffect(() => {
         window.addEventListener("resize", handleResize)
+        const fetchData = async () => {
+            const respone = await Promise.all([
+                movieApi.fetchMovies(),
+                movieApi.fetchMoviesComingSoon()
+            ])
+            setCurrentMovies(respone[0])
+            setComingMovies(respone[1])
+        }   
+        fetchData()
     },[])
 
     useEffect(() => {
@@ -107,49 +123,7 @@ const MoviesView = () => {
                     MOVIE IS SHOWING
                 </div>  
                 <div className={styles.list_movies}>
-                    {items.map((item, index) => (
-                        // <div className={styles.movie_item} key={index} 
-                        //     style={
-                        //         {
-                        //             left: `${(index - currentIndex)*multipleValue}vw`,
-                        //         }
-                        //     }
-                        // >
-                        // <div className={styles.image_container}>
-                        //     <Image className={styles.image} src={item.src} alt={item.name} width={160} height={90} unoptimized />
-                        //     <div className={styles.image_overlay}>
-                        //         <div className={styles.overlay_header}>
-                        //             Gia tài của ngoại
-                        //         </div>
-                        //         <div className={styles.overlay_item}>
-                        //             <Image src="/icons/icon-tag.svg" alt="" width={16} height={16}></Image>
-                        //             <div className={styles.overlay_name}>
-                        //                 Mentality
-                        //             </div>
-                        //         </div>
-                        //         <div className={styles.overlay_item}>
-                        //             <Image src="/icons/subtitle.svg" alt="" width={16} height={16}></Image>
-                        //             <div className={styles.overlay_name}>
-                        //                 Việt Nam
-                        //             </div>
-                        //         </div>
-                        //         <div className={styles.overlay_item}>
-                        //             <Image src="/icons/icon-clock.svg" alt="" width={16} height={16}></Image>
-                        //             <div className={styles.overlay_name}>
-                        //                 100m
-                        //             </div>
-                        //         </div>
-                        //     </div>
-                        // </div>
-                        // <div className={styles.movie_name}>
-                        //     {item.name}
-                        // </div>
-                        // <div className={styles.btn_container}>
-                        //     <div className={styles.order_btn}>
-                        //         Book tickets
-                        //     </div>
-                        // </div>
-                        // </div>
+                    {currentMovies.map((item, index) => (
                         <MovieItem key={index} item={item} currentIndex={currentIndex} index={index}/>
                     ))}
                     <div className={`${styles.navigator} ${styles.left} ${enablePrev === false ? styles.disable : ''}`} onClick={() => {handlePrevMovie()}}>
@@ -160,7 +134,7 @@ const MoviesView = () => {
                     </div>
                 </div>
                 <div className={styles.btn_container}>
-                    <div className={styles.order_btn} onClick={() => {router.push('/showAll')}}>
+                    <div className={styles.order_btn} onClick={() => {router.push('/showAll/current')}}>
                         See More
                     </div>
                 </div>
@@ -170,7 +144,7 @@ const MoviesView = () => {
                     UPCOMING MOVIE
                 </div>  
                 <div className={styles.list_movies}>
-                    {items.map((item, index) => (
+                    {comingMovies.map((item, index) => (
                        <MovieItem currentIndex={currentIndex} index={index} key={index} item={item}/>
                     ))}
                     <div className={`${styles.navigator} ${styles.left} ${enablePrev === false ? styles.disable : ''}`} onClick={() => {handlePrevMovie()}}>
@@ -181,7 +155,7 @@ const MoviesView = () => {
                     </div>
                 </div>
                 <div className={styles.btn_container}>
-                    <div className={styles.order_btn} onClick={() => {router.push('/showAll')}}>
+                    <div className={styles.order_btn} onClick={() => {router.push('/showAll/coming')}}>
                         See More
                     </div>
                 </div>

@@ -1,3 +1,5 @@
+'use client'
+
 import HomePageView from "@/components/HomePageView/HomePageView";
 import Login from "@/components/Login/Login";
 import MoviesView from "@/components/Movies/MoviesView/MovieViews";
@@ -11,8 +13,8 @@ export default function Home() {
     // <div>
     //   WELCOME TO ALOHA CINEMA
     // </div>
-    // <HomePageView/>
-    <Login />
+    <HomePageView/>
+    // <Login />
     // <MoviesView />
     // <ShowAll/>
     // < OrderMovieTicket />
