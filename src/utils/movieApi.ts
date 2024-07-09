@@ -3,7 +3,7 @@ import { Movie, MovieScheduleDate, OrderResponse } from '@/utils/typeOfResponse'
 import dotenv from "dotenv"
 import apiHeader from "./apiHeader"
 dotenv.config()
-const BACKEND_URL = process.env.BACKEND_URL || 'https://flix-backend-tyyl.onrender.com'
+const BACKEND_URL = process.env.BACKEND_URL || 'https://flix-backend-1.onrender.com'
 const fetchMovies = async () : Promise<Movie[]> => {
     try {
       const options = {

@@ -8,7 +8,7 @@ import { GlobalContext } from '@/contexts/GlobalContext';
 
 const Login = () => {
 
-    const {needLogin, setNeedLogin, setUserName} = useContext(GlobalContext)
+    const {needLogin, setNeedLogin, setUserName, setUserId} = useContext(GlobalContext)
     
     const [login, setLogin] = useState<boolean>(false)
 
@@ -42,6 +42,11 @@ const Login = () => {
             Cookies.set('accessToken', accessToken, {
                 expires: 7, 
             });
+            const data = loginApi.getUserInfoFromToken(accessToken)
+            Cookies.set('id', (data.userId ?? 0).toString(), {
+                expires: 7, 
+            });
+            setUserId(data.userId ?? 0)
             setNeedLogin(false)
             router.push('/')
         }
@@ -59,6 +64,11 @@ const Login = () => {
             Cookies.set('accessToken', accessToken, {
                 expires: 7, 
             });
+            const data = loginApi.getUserInfoFromToken(accessToken)
+            Cookies.set('id', (data.userId ?? 0).toString(), {
+                expires: 7, 
+            });
+            setUserId(data.userId ?? 0)
             setNeedLogin(false)
             router.push('/')
         }

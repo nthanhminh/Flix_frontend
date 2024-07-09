@@ -11,7 +11,7 @@ const LottieControl = () => {
     }
   };
 
-  return <Lottie options={defaultOptions} height={280} width={280} />;
+  return (<div><Lottie options={defaultOptions} height={280} width={280} /></div>);
 };
 
 export default LottieControl;

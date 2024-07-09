@@ -92,6 +92,8 @@ const GlobalProvider = ({children} : {children: React.ReactNode}) =>{
 
     useEffect(() => {
         const token = Cookies.get('accessToken');
+        const userId = Cookies.get('userId')
+        setUserId(parseInt(userId!) ?? 0)
         console.log(needLogin)
         if (token) {
             if(loginApi.isTokenExpired(token)) {
@@ -104,6 +106,10 @@ const GlobalProvider = ({children} : {children: React.ReactNode}) =>{
                 setNeedLogin(false)
                 if (pathName && pathName.startsWith('/login')) {
                     router.push('/');
+                    window.location.reload()
+                    window.location.reload()
+                    window.location.reload()
+                    window.location.reload()
                 }
             }
         }
@@ -122,7 +128,12 @@ const GlobalProvider = ({children} : {children: React.ReactNode}) =>{
         if(needLogin){
             router.push('/login')
         }
+        const token = Cookies.get('accessToken');
+        const data = loginApi.getUserInfoFromToken(token!)
+        setUserName(data.userName ?? '')
+        setUserId(data.userId ?? 0)
     }, [pathName])
+
     return (
         <GlobalContext.Provider value={{
             type,

@@ -1,6 +1,6 @@
 import {jwtDecode,JwtPayload } from 'jwt-decode';
 
-const BACKEND_URL = process.env.BACKEND_URL || 'https://flix-backend-tyyl.onrender.com'
+const BACKEND_URL = process.env.BACKEND_URL || 'https://flix-backend-1.onrender.com'
 
 interface CustomJwtPayload extends JwtPayload {
     userName: string | null;
@@ -14,8 +14,11 @@ const login = async(data: {
     try {
         const options = {
             method: 'POST', 
+            credentials: 'include' as RequestCredentials,
             headers: {
-                'Content-Type': 'application/json', 
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': 'http://localhost:3000',
+                'Access-Control-Allow-Credentials': 'true'
             },
             body: JSON.stringify(data)
         };
@@ -39,8 +42,11 @@ const register = async(data: {
     try {
         const options = {
             method: 'POST', 
+            credentials: 'include' as RequestCredentials,
             headers: {
-                'Content-Type': 'application/json', 
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': 'http://localhost:3000',
+                'Access-Control-Allow-Credentials': 'true'
             },
             body: JSON.stringify(data)
         };

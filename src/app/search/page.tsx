@@ -1,27 +1,58 @@
 'use client'
-import ShowAll from '@/components/Movies/Shows/ShowsAll';
+import dynamic from 'next/dynamic';
+import { useSearchParams } from 'next/navigation';
+import { Suspense, useEffect, useState } from 'react';
 import movieApi from '@/utils/movieApi';
 import { Movie } from '@/utils/typeOfResponse';
-import { useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import LottieControl from '@/components/LoadingPage/LoadingPage';
 
-const SearchPage = () => {
-    const searchParams = useSearchParams();
-    const searchTerm = searchParams.get('search');
-    useEffect(()=>{
+const ShowAll = dynamic(() => import('@/components/Movies/Shows/ShowsAll'), { ssr: false });
+
+function SearchPageInner() {
+  const [movies, setMovies] = useState<Movie[]>([]);
+  const searchParams = useSearchParams();
+  const searchTerm = searchParams.get('search');
+  const [loading, setLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
         if (searchTerm) {
-            const fetchData = async () => {
-                const respone = await movieApi.searchMovie(searchTerm)
-                setMovies(respone)
-           }
-           fetchData()
+          setLoading(true);
+          const response = await movieApi.searchMovie(searchTerm);
+          setMovies(response);
+          setLoading(false);
         }
-    },[searchTerm])
-    const [movies, setMovies] = useState<Movie[]>([]);
-    return (
-        <ShowAll title='Search Results' movies={movies}/>
+      } catch (error) {
+        console.error('Error fetching movies:', error);
+      }
+    };
+
+    fetchData();
+  }, [searchTerm]);
+
+  return (
+    loading ? (
+      <div style={{
+        paddingTop: '8%',
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}>
+        <LottieControl />
+      </div>
+    ) : (
+      <ShowAll title='Search Results' movies={movies} />
     )
+  );
 }
 
-export default SearchPage
-
+export default function SearchPage() {
+    return (
+      <Suspense fallback={<div>Loading...</div>}>
+        <SearchPageInner />
+      </Suspense>
+    );
+  }

@@ -19,12 +19,15 @@ const OrderResult = () => {
     }
     useEffect(() => {
         const fetchData = async() => {
-            setLoading(true)
             try {
+                console.log(userId)
             if(userId>0){
                 try {
+                    setLoading(true)
                     const response = await movieApi.getOrderFromUserId(userId)
                     setOrders(response)
+                    console.log(response)
+                    setLoading(false)
                 } catch (error) {
                     throw new Error("Error fetching order")
                 }
@@ -32,7 +35,6 @@ const OrderResult = () => {
            } catch (error) {
                 console.log(error)
            }
-           setLoading(false)
         }
 
         fetchData()

@@ -2,9 +2,6 @@
 
 import { FC, useEffect, useState } from 'react'
 import styles from './styles.module.css'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
-import Image from 'next/image';
 import AnotherService from '../HomePageViewChildren/AnotherService/AnotherService';
 import Services from '../HomePageViewChildren/Services/Services';
 import Contact from '../HomePageViewChildren/Contact/Contact';
