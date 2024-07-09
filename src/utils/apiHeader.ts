@@ -1,12 +1,16 @@
 import Cookies from "js-cookie"
 
-const accessToken = Cookies.get('accessToken')
-
-const apiHeader = {
-    'Content-Type': 'application/json', 
-    'Authorization': `Bearer ${accessToken}`,
-    'Access-Control-Allow-Origin': 'https://flix-frontend-bice.vercel.app',
-    'Access-Control-Allow-Credentials': 'true'
+const getAccessToken = () => {
+    return Cookies.get('accessToken');
 }
 
-export default apiHeader
+const updateApiHeader = () => {
+    const accessToken = getAccessToken();
+    return {
+        'Content-Type': 'application/json', 
+        'Authorization': `Bearer ${accessToken}`,
+    };
+    
+}
+
+export default updateApiHeader

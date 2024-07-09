@@ -38,7 +38,7 @@ const HomePageView: FC<HomePageProps> = () => {
     useEffect(() => {
         setTimeout(() => {
             moveFirstToLast()
-        }, 5000)
+        }, 8000)
       }, [movies]);
 
     const moveFirstToLast = ():void => {

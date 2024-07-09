@@ -8,7 +8,7 @@ import { GlobalContext } from '@/contexts/GlobalContext';
 
 const Login = () => {
 
-    const {needLogin, setNeedLogin, setUserName, setUserId} = useContext(GlobalContext)
+    const {setNeedLogin, setUserName, setUserId, setAccessToken} = useContext(GlobalContext)
     
     const [login, setLogin] = useState<boolean>(false)
 
@@ -39,9 +39,11 @@ const Login = () => {
 
         if(accessToken){
             setUserName(inputLoginUsername.current?.value!)
+            setAccessToken(accessToken)
             Cookies.set('accessToken', accessToken, {
                 expires: 7, 
             });
+
             const data = loginApi.getUserInfoFromToken(accessToken)
             Cookies.set('id', (data.userId ?? 0).toString(), {
                 expires: 7, 

@@ -1,36 +1,31 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# FLIX-FRONTEND
 
-## Getting Started
+FLIX-FRONTEND serves as the client interface for users interacting with FLIX-BACKEND's services. It focuses on presenting movies, schedules, and handling user interactions seamlessly.
 
-First, run the development server:
+## LINK: 
+- **https://flix-frontend-bice.vercel.app**
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Description
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Actor: 
+FLIX-FRONTEND caters to a single user across various platforms, ensuring a seamless experience whether accessed via desktop, mobile, or tablet.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Business Logic: 
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- **Authentication Processes**: Enables users to create new accounts with required credentials, Provides secure access to user accounts based on authentication tokens JWT Token
 
-## Learn More
+- **Content Management**: 
+ **Movie**: Displays detailed information about available movies, including descriptions, genres, ... 
+ **Movie Schedules**: Shows upcoming movie screenings with date, time, and available seats.
+ **User Orders**: Lists user-specific orders for purchased tickets or goods.
+ **Goods Management**: Provides options for browsing and purchasing merchandise related to movies.
+## Tech Stack
 
-To learn more about Next.js, take a look at the following resources:
+- **Language**: TypeScript, HTML, CSS
+- **Libraries**: Nextjs, Lottie, JWT
+- **API Integration**: Utilizes Fetch for seamless communication with FLIX-BACKEND
+- **Source Version Control**: Git
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Design Principles
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+FLIX-FRONTEND follows design principles that prioritize user experience, accessibility, and responsive layout, adhering to modern web design standards.

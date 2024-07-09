@@ -1,14 +1,14 @@
 import axios from "axios"
 import { Movie, MovieScheduleDate, OrderResponse } from '@/utils/typeOfResponse'
 import dotenv from "dotenv"
-import apiHeader from "./apiHeader"
+import updateApiHeader from "./apiHeader"
 dotenv.config()
 const BACKEND_URL = process.env.BACKEND_URL || 'https://flix-backend-1.onrender.com'
 const fetchMovies = async () : Promise<Movie[]> => {
     try {
       const options = {
         method: 'GET', 
-        headers: apiHeader,
+        headers: updateApiHeader(),
       };
       const response = await fetch(`${BACKEND_URL}/movies/getTop10FilmCurrentShowing`, options);
       if (!response.ok) {
@@ -26,7 +26,7 @@ const fetchMoviesComingSoon = async () : Promise<Movie[]> => {
   try {
     const options = {
       method: 'GET', 
-      headers: apiHeader,
+      headers: updateApiHeader(),
     };
     const response = await fetch(`${BACKEND_URL}/movies/getTop10FilmComingSoon`, options);
     if (!response.ok) {
@@ -43,7 +43,7 @@ const getAllCurrentFilms = async () : Promise<Movie[]> => {
   try {
     const options = {
       method: 'GET', 
-      headers: apiHeader,
+      headers: updateApiHeader(),
     };
     const response = await fetch(`${BACKEND_URL}/movies/getAllCurrentFilms`, options);
     if (!response.ok) {
@@ -61,7 +61,7 @@ const getAllComingFilms = async () : Promise<Movie[]> => {
   try {
     const options = {
       method: 'GET', 
-      headers: apiHeader,
+      headers: updateApiHeader(),
     };
     const response = await fetch(`${BACKEND_URL}/movies/getAllComingFilms`, options);
     if (!response.ok) {
@@ -79,7 +79,7 @@ const fetchMovieById = async (id : number): Promise<Movie | null> => {
     try {
       const options = {
         method: 'GET', 
-        headers: apiHeader,
+        headers: updateApiHeader(),
       };
       const response = await fetch(`${BACKEND_URL}/movies/getMovieById/${id}`, options);
       if (!response.ok) {
@@ -98,7 +98,7 @@ const fetchMovieSchedule = async (id : number): Promise<MovieScheduleDate | null
   try {
       const options = {
         method: 'GET', 
-        headers: apiHeader,
+        headers: updateApiHeader(),
       };
       const response = await fetch(`${BACKEND_URL}/orderTicket/getMovieScheduleByFilmId/${id}`, options);
       if (!response.ok) {
@@ -116,7 +116,7 @@ const fetchDataAbouSeat = async (movieScheduleId: number) : Promise<string[]> =>
   try {
     const options = {
       method: 'GET', 
-      headers: apiHeader,
+      headers: updateApiHeader(),
     };
     const response = await fetch(`${BACKEND_URL}/orderTicket/getSeatingOrderDetailByMovieSchedule/${movieScheduleId}`, options);
     if (!response.ok) {
@@ -135,7 +135,7 @@ const searchMovie = async (search: string) : Promise<Movie[]> => {
   try {
     const options = {
       method: 'GET', 
-      headers: apiHeader,
+      headers: updateApiHeader(),
     };
     const response = await fetch(`${BACKEND_URL}/movies/searchMovie?search=${search}`, options);
     if (!response.ok) {
@@ -153,7 +153,7 @@ const getOrderFromUserId = async (userId: number): Promise<OrderResponse> => {
   try {
     const options = {
       method: 'GET', 
-      headers: apiHeader,
+      headers: updateApiHeader(),
     };
     const response = await fetch(`${BACKEND_URL}/orderTicket/getOrderByCustomerId/${userId}`, options);
     if (!response.ok) {

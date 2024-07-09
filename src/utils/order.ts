@@ -1,7 +1,7 @@
 import axios from "axios"
 import { Food, Movie, MovieScheduleDate, OrderFoodRequest, OrderTicketRequest, Ticket } from '@/utils/typeOfResponse'
 import dotenv from "dotenv"
-import apiHeader from "./apiHeader"
+import updateApiHeader from "./apiHeader"
 dotenv.config()
 const BACKEND_URL = process.env.BACKEND_URL || 'https://flix-backend-1.onrender.com'
 
@@ -9,7 +9,7 @@ const orderFood = async (data: OrderFoodRequest) : Promise<string> => {
     try {
         const options = {
         method: 'POST', 
-        headers: apiHeader,
+        headers: updateApiHeader(),
         body: JSON.stringify(data)
         };
         const response = await fetch(`${BACKEND_URL}/foods/orderFood`, options);
@@ -29,7 +29,7 @@ const orderTicket = async (data: OrderTicketRequest) : Promise<string> => {
         try {
         const options = {
             method: 'POST', 
-            headers: apiHeader,
+            headers: updateApiHeader(),
             body: JSON.stringify(data)
         };
         const response = await fetch(`${BACKEND_URL}/orderTicket/orderTicket`, options);
@@ -49,7 +49,7 @@ const getTicketPrice = async (filmId:number) : Promise<Ticket[]> => {
     try {
         const options = {
             method: 'GET', 
-            headers: apiHeader,
+            headers: updateApiHeader(),
         };
         const response = await fetch(`${BACKEND_URL}/movies/getTicketByFilmId/${filmId}`, options);
         if (!response.ok) {

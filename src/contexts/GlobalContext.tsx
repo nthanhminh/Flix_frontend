@@ -31,6 +31,8 @@ interface GlobalContextType{
     setUserName: React.Dispatch<React.SetStateAction<string>>,
     userId: number,
     setUserId: React.Dispatch<React.SetStateAction<number>>,
+    accessToken: string
+    setAccessToken: React.Dispatch<React.SetStateAction<string>>,
 }
 
 export const GlobalContext = createContext<GlobalContextType>({
@@ -57,12 +59,15 @@ export const GlobalContext = createContext<GlobalContextType>({
     setUserName: () => {},
     userId: 0,
     setUserId: () => {},
+    accessToken: '',
+    setAccessToken: () => {},
 })
 
 const GlobalProvider = ({children} : {children: React.ReactNode}) =>{
     const [type, setType] = useState<number>(0)
     const [message, setMessage] = useState<string>("")
     const [displayMessage, setDisplayMessage] = useState<boolean>(false)
+    const [accessToken, setAccessToken] = useState<string>('')
     const handleNotification = (type:number, message:string) => {
         setType(type)
         setMessage(message)
@@ -78,9 +83,6 @@ const GlobalProvider = ({children} : {children: React.ReactNode}) =>{
     const [userId, setUserId] = useState<number>(0)
     const pathName = usePathname()
     const router = useRouter()
-    const handleMustLogin = () => {
-        router.push('/login')
-    }
 
     useEffect(() => {
         if(displayMessage) {
@@ -106,10 +108,7 @@ const GlobalProvider = ({children} : {children: React.ReactNode}) =>{
                 setNeedLogin(false)
                 if (pathName && pathName.startsWith('/login')) {
                     router.push('/');
-                    window.location.reload()
-                    window.location.reload()
-                    window.location.reload()
-                    window.location.reload()
+                    router.push('/');
                 }
             }
         }
@@ -159,6 +158,8 @@ const GlobalProvider = ({children} : {children: React.ReactNode}) =>{
             setUserName,
             userId,
             setUserId,
+            accessToken,
+            setAccessToken
         }}>
             <div className="g_container">
                 {
