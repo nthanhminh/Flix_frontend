@@ -10,7 +10,6 @@ const ShowAllPage = () => {
     const [movies, setMovies] = useState<Movie[]>([]);
     useEffect(() => {
         const fetchData = async() => {
-            console.log(typeUsed)
             if(typeUsed === 'current'){
                 const respone = await movieApi.getAllCurrentFilms()
                 setMovies(respone)

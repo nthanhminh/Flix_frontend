@@ -1,12 +1,16 @@
 import axios from "axios"
-import { Movie, MovieScheduleDate } from '@/utils/typeOfResponse'
+import { Movie, MovieScheduleDate, OrderResponse } from '@/utils/typeOfResponse'
 import dotenv from "dotenv"
+import apiHeader from "./apiHeader"
 dotenv.config()
 const BACKEND_URL = process.env.BACKEND_URL || 'https://flix-backend-tyyl.onrender.com'
 const fetchMovies = async () : Promise<Movie[]> => {
     try {
-      console.log(BACKEND_URL)
-      const response = await fetch(`${BACKEND_URL}/movies/getTop10FilmCurrentShowing`);
+      const options = {
+        method: 'GET', 
+        headers: apiHeader,
+      };
+      const response = await fetch(`${BACKEND_URL}/movies/getTop10FilmCurrentShowing`, options);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
@@ -20,23 +24,28 @@ const fetchMovies = async () : Promise<Movie[]> => {
 
 const fetchMoviesComingSoon = async () : Promise<Movie[]> => {
   try {
-    console.log(BACKEND_URL)
-    const response = await fetch(`${BACKEND_URL}/movies/getTop10FilmComingSoon`);
+    const options = {
+      method: 'GET', 
+      headers: apiHeader,
+    };
+    const response = await fetch(`${BACKEND_URL}/movies/getTop10FilmComingSoon`, options);
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
     const movies = await response.json();
     return movies;
   } catch (error) {
-    console.error('Fetch error:', error);
     return [];
   }
 };
 
 const getAllCurrentFilms = async () : Promise<Movie[]> => {
   try {
-    console.log(BACKEND_URL)
-    const response = await fetch(`${BACKEND_URL}/movies/getAllCurrentFilms`);
+    const options = {
+      method: 'GET', 
+      headers: apiHeader,
+    };
+    const response = await fetch(`${BACKEND_URL}/movies/getAllCurrentFilms`, options);
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
@@ -50,8 +59,11 @@ const getAllCurrentFilms = async () : Promise<Movie[]> => {
 
 const getAllComingFilms = async () : Promise<Movie[]> => {
   try {
-    console.log(BACKEND_URL)
-    const response = await fetch(`${BACKEND_URL}/movies/getAllComingFilms`);
+    const options = {
+      method: 'GET', 
+      headers: apiHeader,
+    };
+    const response = await fetch(`${BACKEND_URL}/movies/getAllComingFilms`, options);
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
@@ -65,12 +77,16 @@ const getAllComingFilms = async () : Promise<Movie[]> => {
 
 const fetchMovieById = async (id : number): Promise<Movie | null> => {
     try {
-        const response = await fetch(`${BACKEND_URL}/movies/getMovieById/${id}`);
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const movies = await response.json();
-        return movies;
+      const options = {
+        method: 'GET', 
+        headers: apiHeader,
+      };
+      const response = await fetch(`${BACKEND_URL}/movies/getMovieById/${id}`, options);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const movies = await response.json();
+      return movies;
       } catch (error) {
         console.error('Fetch error:', error);
         return null;
@@ -82,9 +98,7 @@ const fetchMovieSchedule = async (id : number): Promise<MovieScheduleDate | null
   try {
       const options = {
         method: 'GET', 
-        headers: {
-            'Content-Type': 'application/json', 
-        },
+        headers: apiHeader,
       };
       const response = await fetch(`${BACKEND_URL}/orderTicket/getMovieScheduleByFilmId/${id}`, options);
       if (!response.ok) {
@@ -93,10 +107,8 @@ const fetchMovieSchedule = async (id : number): Promise<MovieScheduleDate | null
 
     const responseData = await response.json();
 
-    console.log('Success:', responseData);
   return responseData;
   } catch (error) {
-    console.log(error)
     return null
   }
 }
@@ -104,9 +116,7 @@ const fetchDataAbouSeat = async (movieScheduleId: number) : Promise<string[]> =>
   try {
     const options = {
       method: 'GET', 
-      headers: {
-          'Content-Type': 'application/json', 
-      },
+      headers: apiHeader,
     };
     const response = await fetch(`${BACKEND_URL}/orderTicket/getSeatingOrderDetailByMovieSchedule/${movieScheduleId}`, options);
     if (!response.ok) {
@@ -115,18 +125,19 @@ const fetchDataAbouSeat = async (movieScheduleId: number) : Promise<string[]> =>
 
   const responseData = await response.json();
 
-  console.log('Success:', responseData);
   return responseData;
   } catch (error) {
-    console.log(error)
     return []
 }
 }
 
 const searchMovie = async (search: string) : Promise<Movie[]> => {
   try {
-    console.log(BACKEND_URL)
-    const response = await fetch(`${BACKEND_URL}/movies/searchMovie?search=${search}`);
+    const options = {
+      method: 'GET', 
+      headers: apiHeader,
+    };
+    const response = await fetch(`${BACKEND_URL}/movies/searchMovie?search=${search}`, options);
     if (!response.ok) {
       throw new Error('Network response was not ok');
     }
@@ -138,6 +149,24 @@ const searchMovie = async (search: string) : Promise<Movie[]> => {
   }
 }
 
+const getOrderFromUserId = async (userId: number): Promise<OrderResponse> => {
+  try {
+    const options = {
+      method: 'GET', 
+      headers: apiHeader,
+    };
+    const response = await fetch(`${BACKEND_URL}/orderTicket/getOrderByCustomerId/${userId}`, options);
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    const movies = await response.json();
+    return movies;
+  } catch (error) {
+    console.error('Fetch error:', error);
+    return {};
+  }
+}
+
 const movieApi = {
     fetchMovies,
     fetchMovieById,
@@ -146,7 +175,8 @@ const movieApi = {
     fetchMoviesComingSoon,
     getAllComingFilms,
     getAllCurrentFilms,
-    searchMovie
+    searchMovie,
+    getOrderFromUserId
 }
 
 export default movieApi

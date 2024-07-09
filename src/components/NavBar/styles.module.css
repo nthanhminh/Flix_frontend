@@ -108,6 +108,7 @@
     cursor: pointer;
     display: none;
     animation: animate 0.5s linear forwards;
+    z-index: 10000;
 }
 
 @keyframes animate {

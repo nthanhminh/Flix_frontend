@@ -40,20 +40,6 @@ const ShowTime = ({
         fetchData()
     }, [selectedTime])
 
-    useEffect(() => {
-        console.log(diableSeats)
-    }, [diableSeats])
-
-    useEffect(() => {
-        console.log(selectedSeats)
-    }, [selectedSeats])
-
-    // const addSeat = (value:string):void => {
-    //     const tmpListSeat:string[] = selectedSeat
-    //     tmpListSeat.push(value)
-    //     SetSelectedSeat(tmpListSeat)
-    // }
-
     const handleChooseSeat = (value:string):void => {
         let tmp: string[] = [...selectedSeats]
         if(numberOfSeats === tmp.length){

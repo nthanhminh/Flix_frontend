@@ -10,7 +10,6 @@ const SearchPage = () => {
     const searchTerm = searchParams.get('search');
     useEffect(()=>{
         if (searchTerm) {
-            console.log(searchTerm)
             const fetchData = async () => {
                 const respone = await movieApi.searchMovie(searchTerm)
                 setMovies(respone)

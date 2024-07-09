@@ -1,0 +1,121 @@
+@media only screen and (min-width: 320px) and (max-width: 1000px) {
+    .orderItem{
+        flex-direction: column;
+    }
+
+}
+
+/* @media (min-width: 936px) {
+    .food_item_info{
+        width: 40% !important;
+    }
+} */
+
+.container {
+    width: 100%;
+    height: 100%;
+    padding-top: 8%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+
+}
+
+.header{
+    width: 100%;
+    text-align: center;
+    font-size: 32px;
+    font-weight: bold;
+    font-family: 'Inter';
+    color: #333;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.orderList{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.orderItem{
+    padding: 12px 64px;
+    width: 100%;
+    display: flex;
+    gap: 32px;
+}
+
+.image_container{
+    width: 50%;
+}
+
+.image{
+    width: 100%;
+    height: auto;
+    border-radius: 18px;
+    object-fit: cover;
+}
+
+.info_container{
+    width: 100%;
+    height: 100%;
+}
+
+.list{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: flex-end;
+    gap: 32px;
+    align-items: flex-start;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    letter-spacing: 1.2px;
+    width: 100%;
+}
+
+.text{
+    width: 100%;
+    font-size: 18px;
+    font-weight: bold;
+    font-family: 'Inter';
+    text-transform: uppercase;
+    display: flex;
+    text-align: bottom;
+}
+
+.title{
+    display: block;
+    font-size: 18px;
+    font-weight: bold;
+    font-family: 'Inter';
+    text-transform: uppercase;
+    /* width: 18px; */
+}
+
+.logout{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    padding: 32px 0;
+}
+
+.logoutBtn {
+    min-width: 120px;
+    background-color: pink;
+    padding: 12px 32px;
+    border-radius: 25px;
+    font-size: 20px;
+    font-weight: bold;
+    font-family: 'Inter';
+    color: #333;
+    box-shadow: 0 2px 10px 2px pink;
+    transition: all 0.55s linear;
+}
+
+.logoutBtn:hover{
+    transform: translateY(2px);
+    box-shadow: none;
+}

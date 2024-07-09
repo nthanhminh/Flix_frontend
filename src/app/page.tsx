@@ -6,6 +6,7 @@ import MoviesView from "@/components/Movies/MoviesView/MovieViews";
 import ShowAll from "@/components/Movies/Shows/ShowsAll";
 import OrderFoodPage from "@/components/OrderFood/OrderFood";
 import OrderMovieTicket from "@/components/OrderPage/OrderMovieTicket";
+import OrderResult from "@/components/OrderResult/OrderResult";
 import Image from "next/image";
 
 export default function Home() {
@@ -14,6 +15,8 @@ export default function Home() {
     //   WELCOME TO ALOHA CINEMA
     // </div>
     <HomePageView/>
+    // <OrderResult />
+    // <Login></Login>
     // <Login />
     // <MoviesView />
     // <ShowAll/>

@@ -22,9 +22,7 @@ const MovieItem: FC<MovieItemProps> = ({item, index, currentIndex}) => {
     const [multipleValue, setMultipleValue] = useState<number>(33)
 
     const handleResize = () => {
-        console.log(imageRef.current?.height)
         if(imageRef.current?.height !== undefined){
-            // setHeight(imageRef.current?.clientHeight)
             debouncedSetHeight(imageRef.current?.clientHeight || 0);
         }
         if (window.innerWidth < 600 && window.innerWidth >= 320) {
@@ -42,6 +40,7 @@ const MovieItem: FC<MovieItemProps> = ({item, index, currentIndex}) => {
     const debouncedSetHeight = useCallback(debounce((height: number) => setHeight(height), 100), []);
 
     useEffect(() => {
+        handleResize()
         window.addEventListener("resize", handleResize)
     },[])
 
@@ -98,7 +97,7 @@ const MovieItem: FC<MovieItemProps> = ({item, index, currentIndex}) => {
             {item.name}
         </div>
         <div className={styles.btn_container} >
-            <div className={styles.order_btn} onClick={() => {router.push(`/movies`)}}>
+            <div className={styles.order_btn} onClick={() => {router.push(`/movies/${item.id}`)}}>
                 Book tickets
             </div>
         </div>

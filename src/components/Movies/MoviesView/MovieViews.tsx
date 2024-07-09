@@ -7,6 +7,7 @@ import MovieItem from '../MovieItem/MovieItem';
 import { useRouter } from 'next/navigation';
 import { Movie } from '@/utils/typeOfResponse';
 import movieApi from '@/utils/movieApi';
+import LottieControl from '@/components/LoadingPage/LoadingPage';
 const MoviesView = () => {
 
     const [currentIndex, setCurrentIndex] = useState<number>(0)
@@ -23,6 +24,8 @@ const MoviesView = () => {
 
     const [comingMovies, setComingMovies] = useState<Movie[]>([])
 
+    const [loading, setLoading] = useState<boolean>(false)
+
     const router = useRouter()
 
     const handleResize = () => {
@@ -36,19 +39,23 @@ const MoviesView = () => {
       } 
     
     useEffect(() => {
+        handleResize()
         window.addEventListener("resize", handleResize)
         const fetchData = async () => {
+            setLoading(true)
             const respone = await Promise.all([
                 movieApi.fetchMovies(),
                 movieApi.fetchMoviesComingSoon()
             ])
             setCurrentMovies(respone[0])
             setComingMovies(respone[1])
+            setLoading(false)
         }   
         fetchData()
     },[])
 
     useEffect(() => {
+        console.log(typeScreen)
         switch (typeScreen) {
             case 1:
                 setMultipleValue(80)
@@ -122,17 +129,23 @@ const MoviesView = () => {
                 <div className={styles.current_movie_header}>
                     MOVIE IS SHOWING
                 </div>  
-                <div className={styles.list_movies}>
-                    {currentMovies.map((item, index) => (
-                        <MovieItem key={index} item={item} currentIndex={currentIndex} index={index}/>
-                    ))}
-                    <div className={`${styles.navigator} ${styles.left} ${enablePrev === false ? styles.disable : ''}`} onClick={() => {handlePrevMovie()}}>
-                        <Image src="/icons/left1.svg" alt="" width={32} height={32}></Image>
-                    </div>
-                    <div className={`${styles.navigator} ${styles.right} ${enableNext === false ? styles.disable : ''}`} onClick={() => {handleNextMovie()}}>
-                        <Image src="/icons/right1.svg" alt="" width={32} height={32}></Image>
-                    </div>
-                </div>
+                {
+                    loading ? (
+                        <LottieControl/>
+                    ) : (
+                        <div className={styles.list_movies}>
+                            {currentMovies.map((item, index) => (
+                                <MovieItem key={index} item={item} currentIndex={currentIndex} index={index}/>
+                            ))}
+                            <div className={`${styles.navigator} ${styles.left} ${enablePrev === false ? styles.disable : ''}`} onClick={() => {handlePrevMovie()}}>
+                                <Image src="/icons/left1.svg" alt="" width={32} height={32}></Image>
+                            </div>
+                            <div className={`${styles.navigator} ${styles.right} ${enableNext === false ? styles.disable : ''}`} onClick={() => {handleNextMovie()}}>
+                                <Image src="/icons/right1.svg" alt="" width={32} height={32}></Image>
+                            </div>
+                        </div>
+                    )
+                }
                 <div className={styles.btn_container}>
                     <div className={styles.order_btn} onClick={() => {router.push('/showAll/current')}}>
                         See More
@@ -143,17 +156,23 @@ const MoviesView = () => {
                 <div className={styles.current_movie_header}>    
                     UPCOMING MOVIE
                 </div>  
-                <div className={styles.list_movies}>
-                    {comingMovies.map((item, index) => (
-                       <MovieItem currentIndex={currentIndex} index={index} key={index} item={item}/>
-                    ))}
-                    <div className={`${styles.navigator} ${styles.left} ${enablePrev === false ? styles.disable : ''}`} onClick={() => {handlePrevMovie()}}>
-                        <Image src="/icons/left1.svg" alt="" width={32} height={32}></Image>
-                    </div>
-                    <div className={`${styles.navigator} ${styles.right} ${enableNext === false ? styles.disable : ''}`} onClick={() => {handleNextMovie()}}>
-                        <Image src="/icons/right1.svg" alt="" width={32} height={32}></Image>
-                    </div>
-                </div>
+                {
+                    loading ? (
+                        <LottieControl/>
+                    ) : (
+                        <div className={styles.list_movies}>
+                            {comingMovies.map((item, index) => (
+                            <MovieItem currentIndex={currentIndex} index={index} key={index} item={item}/>
+                            ))}
+                            <div className={`${styles.navigator} ${styles.left} ${enablePrev === false ? styles.disable : ''}`} onClick={() => {handlePrevMovie()}}>
+                                <Image src="/icons/left1.svg" alt="" width={32} height={32}></Image>
+                            </div>
+                            <div className={`${styles.navigator} ${styles.right} ${enableNext === false ? styles.disable : ''}`} onClick={() => {handleNextMovie()}}>
+                                <Image src="/icons/right1.svg" alt="" width={32} height={32}></Image>
+                            </div>
+                        </div>
+                    )
+                }
                 <div className={styles.btn_container}>
                     <div className={styles.order_btn} onClick={() => {router.push('/showAll/coming')}}>
                         See More

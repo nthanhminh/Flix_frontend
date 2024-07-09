@@ -2,6 +2,10 @@
     .movie_item{
         width: 100% !important;
     }
+
+    .image_overlay{
+        height: 77%  !important;
+    }
 }
 
 @media only screen and (min-width: 600px) and (max-width: 935px) {

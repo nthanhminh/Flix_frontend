@@ -1,10 +1,14 @@
+'use client'
+
 import { usePathname, useRouter } from "next/navigation"
-import { useEffect, useRef, useState } from "react"
+import { useContext, useEffect, useRef, useState } from "react"
 import styles from './styles.module.css'
 import Image from "next/image"
+import { GlobalContext } from "@/contexts/GlobalContext"
 const NavBar = () => {
     const router = useRouter()
     const pathName = usePathname()
+    const {userName} = useContext(GlobalContext)
     const [selected, setSelected] = useState<number>(0)
     const [value, setValue] = useState<string>('');
     const input = useRef<HTMLInputElement>(null)
@@ -21,6 +25,7 @@ const NavBar = () => {
                 setSelected(3)
                 break;
         }
+        console.log('userName: ', userName)
     }, [pathName])
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -62,20 +67,32 @@ const NavBar = () => {
             <div className={styles.search}>
                 <input ref={input} onKeyDown={handleKeyDown} onChange={(event) => {handleChange(event)}} className={styles.search_input} type="text" placeholder="Search your favourite films"/>
             </div>
-            <div className={styles.login}>
-                Login
+            <div className={styles.login} onClick={() => {
+                router.push('/orders')
+            }}>
+                {userName}
             </div>
             <div className={styles.navBar_mobile}>
                 <Image src="icons/menu.png" alt="" width={32} height={32} unoptimized></Image>
                 <div className={styles.navBar_mobile_container}>
-                    <div className={styles.navbar_mobile_item}>
-                        Book your tickets now
+                    <div className={styles.navbar_mobile_item} onClick={
+                        () => {
+                            router.push('/order-ticket')
+                        }
+                    }>
+                            Book your tickets now
                     </div>
-                    <div className={styles.navbar_mobile_item}>
+                    <div className={styles.navbar_mobile_item} onClick={
+                        () => {
+                            router.push('/order-food')
+                        }
+                    }>
                         Order food now
                     </div>
-                    <div className={styles.navbar_mobile_item}>
-                        Login
+                    <div className={styles.navbar_mobile_item} onClick={() => {
+                        router.push('/orders')
+                    }}>
+                        {userName}
                     </div>
                 </div>
             </div>

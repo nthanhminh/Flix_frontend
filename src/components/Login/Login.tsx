@@ -1,75 +1,128 @@
+'use client'
+import { useContext, useRef, useState } from 'react'
 import styles from './styles.module.css'
+import Cookies from 'js-cookie';
+import loginApi from '@/utils/login'
+import { useRouter } from 'next/navigation';
+import { GlobalContext } from '@/contexts/GlobalContext';
 
 const Login = () => {
+
+    const {needLogin, setNeedLogin, setUserName} = useContext(GlobalContext)
+    
+    const [login, setLogin] = useState<boolean>(false)
+
+    const inputLoginUsername = useRef<HTMLInputElement>(null)
+
+    const inputRegisterUsername = useRef<HTMLInputElement>(null)
+
+    const inputLoginPassword = useRef<HTMLInputElement>(null)
+
+    const inputRegisterPassword = useRef<HTMLInputElement>(null)
+
+    const router = useRouter()
+
+
+    const handleLogin = () => {
+        console.log('click')
+        setLogin(!login)
+    }
+
+    const handleLoginAction = async() => {
+
+        console.log(inputLoginUsername.current?.value, inputLoginPassword.current?.value)
+
+        const accessToken = await loginApi.login({
+            userName: inputLoginUsername.current?.value ?? '',
+            password: inputLoginPassword.current?.value ?? '',
+        })
+
+        if(accessToken){
+            setUserName(inputLoginUsername.current?.value!)
+            Cookies.set('accessToken', accessToken, {
+                expires: 7, 
+            });
+            setNeedLogin(false)
+            router.push('/')
+        }
+    }
+
+    const handleRegisterAction = async() => {
+        console.log(inputRegisterUsername.current?.value, inputRegisterPassword.current?.value)
+        const accessToken = await loginApi.register({
+            userName: inputRegisterUsername.current?.value ?? '',
+            password: inputRegisterPassword.current?.value ?? '',
+        })
+        console.log(accessToken)
+        if(accessToken){
+            setUserName(inputLoginUsername.current?.value!)
+            Cookies.set('accessToken', accessToken, {
+                expires: 7, 
+            });
+            setNeedLogin(false)
+            router.push('/')
+        }
+    }
+
     return (
-        <div className={styles.container}>
-        <div className={`${styles.form_container} ${styles.register_container}`}>
-                <form action="">
-                    <h1>Register here</h1>
-                    <input type="text" placeholder="Name" />
-                    <input type="text" placeholder="Email" />
-                    <input type="text" placeholder="Password" />
-                    <button>Register</button>
-                    <span>or use your account</span>
-                    <div className={styles.social_container}>
-                        <a href="#" className={styles.social}>
-                            <i className="fa-brands fa-facebook" />
-                        </a>
-                        <a href="#" className={styles.social}>
-                            <i className="fa-brands fa-google" />
-                        </a>
-                        <a href="#" className={styles.social}>
-                            <i className="fa-brands fa-linkedin" />
-                        </a>
-                    </div>
-                </form>
-            </div>
-            <div className="form-container login-container">
-                <form action="">
-                    <h1>Login here</h1>
-                    <input type="email" placeholder="Email" />
-                    <input type="password" placeholder="Password" />
-                    <div className="content">
-                        <div className="checkbox">
-                            <input type="checkbox" name="checkbox" id="checkbox" />
-                            <label htmlFor="checkbox">Remember me</label>
-                        </div>
-                        <div className="pass-link">
-                            <a href="#">Forgot password</a>
-                        </div>
-                    </div>
-                    <button>Login</button>
-                    <span>or use your account</span>
-                    <div className="social-container">
-                        <a href="#" className="social">
-                            <i className="fa-brands fa-facebook" />
-                        </a>
-                        <a href="#" className="social">
-                            <i className="fa-brands fa-google" />
-                        </a>
-                        <a href="#" className="social">
-                            <i className="fa-brands fa-linkedin" />
-                        </a>
-                    </div>
-                </form>
-            </div>
-            <div className="overlay-container">
-                <div className="overlay">
-                    <div className="overlay-panel overlay-left">
-                        <h1 className="title">Hello <br /> Friends</h1>
-                        <p>If you have an account, login here and have fun</p>
-                        <button className="ghost" id="login">
+        <div className= {styles.container}>
+            <div className={styles.form_container}>
+                <div className={`${styles.item_container} ${styles.login} ${!login ? styles.disable : ''}`}>
+                    <div className={`${styles.login_form} ${styles.login_ani} ${!login ? styles.disable : ''}`}>
+                        <h4 className={styles.header}>
                             Login
-                            <i className="fa-solid fa-arrow-right register" />
-                        </button>
+                        </h4>
+                        <div className={styles.input_container}>
+                            <input ref={inputLoginUsername} className={styles.input} type="text" placeholder='UserName'/>
+                        </div>
+                        <div className={styles.input_container}>
+                            <input ref={inputLoginPassword} className={styles.input} type="password" placeholder='Password'/>
+                        </div>
+                        <div className={styles.btn_container}>
+                            <button className={styles.btn} onClick={() => {handleLoginAction()}}>Login</button>
+                        </div>
                     </div>
-                    <div className="overlay-panel overlay-right">
-                        <h1 className="title">Start your <br /> journey now</h1>
-                        <p>If you do not have an account yet, join us and start your journey</p>
-                        <button className="ghost" id="register">
+                    <div className={`${styles.intro} ${styles.login_intro_ani} ${!login ? styles.disable : ''}`}>
+                        <h3 className={styles.intro_header}>
+                            Start Journey
+                        </h3>
+                        <div className={styles.text_container}>
+                            <p className={styles.text}>
+                                Wishing you a great experience
+                            </p>
+                        </div>
+                        <div className={styles.intro_btn_container}>
+                            <button className={styles.intro_btn} onClick={() => {handleLogin()}}>Register</button>
+                        </div>
+                    </div>
+                </div>
+                <div className={`${styles.item_container} ${styles.register} ${login ? styles.disable : ''}`}>
+                    <div className={`${styles.login_form} ${styles.register_ani} ${login ? styles.disable : ''}`}>
+                        <h4 className={styles.header}>
                             Register
-                            <i className="fa-solid fa-arrow-left register" />
-                        </button>
+                        </h4>
+                        <div className={styles.input_container}>
+                            <input ref={inputRegisterUsername} className={styles.input} type="text" placeholder='UserName'/>
+                        </div>
+                        <div className={styles.input_container}>
+                            <input ref={inputRegisterPassword} className={styles.input} type="password" placeholder='Password'/>
+                        </div>
+                        <div className={styles.btn_container}>
+                            <button className={styles.btn} onClick={() => {handleRegisterAction()}}>Register</button>
+                        </div>
+                    </div>
+                    <div className={`${styles.intro} ${styles.register_intro_ani} ${login ? styles.disable : ''}`}>
+                        <h3 className={styles.intro_header}>
+                            Start Journey
+                        </h3>
+                        <div className={styles.text_container}>
+                            <p className={styles.text}>
+                                Wishing you a great experience
+                            </p>
+                        </div>
+                        <div className={styles.intro_btn_container}>
+                            <button className={styles.intro_btn} onClick={():void => {handleLogin()}}>Login</button>
+                        </div>
                     </div>
                 </div>
             </div>

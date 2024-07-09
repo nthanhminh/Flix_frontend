@@ -11,20 +11,19 @@ import Contact from '../HomePageViewChildren/Contact/Contact';
 import { useRouter } from 'next/navigation';
 import movieApi from '@/utils/movieApi';
 import { Movie } from '@/utils/typeOfResponse';
+import LottieControl from '../LoadingPage/LoadingPage';
 
 interface HomePageProps{
 }
 
 const HomePageView: FC<HomePageProps> = () => {
     const [movies, setMovies] = useState<Movie[]>([])
+    const [loading, setLoading] = useState<boolean>(false)
     const router = useRouter()
-
-    useEffect(()=>{
-        console.log(movies)
-    }, [movies])
 
     useEffect( () => {
         const fetchData = async () => {
+            setLoading(true)
             const respone: Movie[] = await movieApi.fetchMovies()
             const tmp: Movie[] = []
             for(let i = 0; i < respone.length; i++){
@@ -33,6 +32,7 @@ const HomePageView: FC<HomePageProps> = () => {
                 }
             }
             setMovies(tmp)
+            setLoading(false)
         }
 
         fetchData()
@@ -45,7 +45,6 @@ const HomePageView: FC<HomePageProps> = () => {
       }, [movies]);
 
     const moveFirstToLast = ():void => {
-        console.log('Move first to last')
         const updatedItems = [...movies];
         const firstItem = updatedItems.shift(); 
         if (firstItem) {
@@ -71,32 +70,38 @@ const HomePageView: FC<HomePageProps> = () => {
 
     return (
         <div className={styles.container}>
-            <div className={styles.slides}>
-                {movies.map((item, index) => (
-                    <div
-                        key={item.id}
-                        className={styles.item}
-                        style={{ backgroundImage: `url(${item.image})`, cursor: 'pointer' }}
-                        onClick={() => {
-                            router.push(`/movies/${item.id}`)
-                        }}
-                    >
-                        <div className={`${styles.content} ${index === 0 ? styles.show : ''}`}>
-                            <div className={styles.name}>{item.name}</div>
-                            <div className={styles.description}>{item.content}</div>
-                            <div className={styles.btn}>Order Now</div>
-                        </div>
+            {
+                loading ? (
+                    <LottieControl/>
+                ) : (
+                    <div className={styles.slides}>
+                        {movies.map((item, index) => (
+                            <div
+                                key={item.id}
+                                className={styles.item}
+                                style={{ backgroundImage: `url(${item.image})`, cursor: 'pointer' }}
+                                onClick={() => {
+                                    router.push(`/movies/${item.id}`)
+                                }}
+                            >
+                                <div className={`${styles.content} ${index === 0 ? styles.show : ''}`}>
+                                    <div className={styles.name}>{item.name}</div>
+                                    <div className={styles.description}>{item.content}</div>
+                                    <div className={styles.btn}>Order Now</div>
+                                </div>
+                            </div>
+                        ))}
+                        {/* <div className={styles.prev_next_container}>
+                            <div className={styles.navigator} onClick={():void => {moveLastToFirst()}}>
+                                <Image src="/icons/left1.svg" alt="" width={32} height={32}></Image>
+                            </div>
+                            <div className={styles.navigator} onClick={():void => {moveFirstToLast()}}>
+                                <Image src="/icons/right1.svg" alt="" width={32} height={32}></Image>
+                            </div>
+                        </div> */}
                     </div>
-                ))}
-                {/* <div className={styles.prev_next_container}>
-                    <div className={styles.navigator} onClick={():void => {moveLastToFirst()}}>
-                        <Image src="/icons/left1.svg" alt="" width={32} height={32}></Image>
-                    </div>
-                    <div className={styles.navigator} onClick={():void => {moveFirstToLast()}}>
-                        <Image src="/icons/right1.svg" alt="" width={32} height={32}></Image>
-                    </div>
-                </div> */}
-            </div>
+                )
+            }
             <AnotherService></AnotherService>
             <Services/>
             <Contact/>

@@ -3,8 +3,13 @@ import { createContext, useEffect, useState } from "react"
 import NavBar from "../components/NavBar/NavBar"
 import { usePathname, useRouter } from "next/navigation"
 import { foodListType } from "@/utils/typeOfResponse"
+import Cookies from "js-cookie"
+import loginApi from "@/utils/login"
+import NotificationView from "@/components/Notification/Notification"
 
 interface GlobalContextType{
+    needLogin: boolean,
+    setNeedLogin: React.Dispatch<React.SetStateAction<boolean>>
     type: number,
     setType: React.Dispatch<React.SetStateAction<number>>
     message: string,
@@ -21,7 +26,11 @@ interface GlobalContextType{
     numberOfSeats: number,
     setNumberOfSeats: React.Dispatch<React.SetStateAction<number>>,
     selectedSeats: string[],
-    setSelectedSeats: React.Dispatch<React.SetStateAction<string[]>>
+    setSelectedSeats: React.Dispatch<React.SetStateAction<string[]>>,
+    userName: string,
+    setUserName: React.Dispatch<React.SetStateAction<string>>,
+    userId: number,
+    setUserId: React.Dispatch<React.SetStateAction<number>>,
 }
 
 export const GlobalContext = createContext<GlobalContextType>({
@@ -42,7 +51,12 @@ export const GlobalContext = createContext<GlobalContextType>({
     setNumberOfSeats: () => {},
     selectedSeats: [],
     setSelectedSeats: () => {},
-
+    needLogin: false,
+    setNeedLogin: () => {},
+    userName: '',
+    setUserName: () => {},
+    userId: 0,
+    setUserId: () => {},
 })
 
 const GlobalProvider = ({children} : {children: React.ReactNode}) =>{
@@ -59,7 +73,45 @@ const GlobalProvider = ({children} : {children: React.ReactNode}) =>{
     const [comboList, setComboList] = useState<foodListType>({})
     const [numberOfSeats, setNumberOfSeats] = useState<number>(0)
     const [selectedSeats, setSelectedSeats] = useState<string[]>([])
+    const [needLogin, setNeedLogin] = useState<boolean>(false)
+    const [userName, setUserName] = useState<string>("")
+    const [userId, setUserId] = useState<number>(0)
     const pathName = usePathname()
+    const router = useRouter()
+    const handleMustLogin = () => {
+        router.push('/login')
+    }
+
+    useEffect(() => {
+        if(displayMessage) {
+            setTimeout(() => {
+                setDisplayMessage(false)
+            },3000)
+        }
+    }, [displayMessage])
+
+    useEffect(() => {
+        const token = Cookies.get('accessToken');
+        console.log(needLogin)
+        if (token) {
+            if(loginApi.isTokenExpired(token)) {
+                setNeedLogin(true)
+            }
+            else {
+                const data = loginApi.getUserInfoFromToken(token!)
+                setUserName(data.userName ?? '')
+                setUserId(data.userId ?? 0)
+                setNeedLogin(false)
+                if (pathName && pathName.startsWith('/login')) {
+                    router.push('/');
+                }
+            }
+        }
+        else {
+            setNeedLogin(true)
+            router.push('/login')
+        }
+    }, [])
 
     useEffect(() => {
         setTotalPrice(0)
@@ -67,6 +119,9 @@ const GlobalProvider = ({children} : {children: React.ReactNode}) =>{
         setFoodList({})
         setSelectedSeats([])
         setNumberOfSeats(0)
+        if(needLogin){
+            router.push('/login')
+        }
     }, [pathName])
     return (
         <GlobalContext.Provider value={{
@@ -86,10 +141,19 @@ const GlobalProvider = ({children} : {children: React.ReactNode}) =>{
             numberOfSeats,
             setNumberOfSeats,
             selectedSeats,
-            setSelectedSeats
+            setSelectedSeats,
+            needLogin, 
+            setNeedLogin,
+            userName,
+            setUserName,
+            userId,
+            setUserId,
         }}>
             <div className="g_container">
-                <NavBar></NavBar>
+                {
+                    !needLogin ? <NavBar></NavBar> : (<></>)
+                }
+                <NotificationView></NotificationView>
                 {children}
                 {/* <Payment></Payment> */}
             </div>

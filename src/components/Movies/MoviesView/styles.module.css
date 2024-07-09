@@ -3,6 +3,9 @@
         min-height: 800px !important;
     }
 
+    .movie_item{
+        width: 100% !important;
+    }
 
 }
 

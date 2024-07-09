@@ -72,3 +72,12 @@ export type Ticket = {
     price: string,
     filmId: string
 }
+
+export type OrderResponse = {
+    [key : number] : {
+        movieTitle: string | null,
+        movieImage: string | null,
+        food: string[],
+        seats: string[]
+    }
+}

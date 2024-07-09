@@ -38,13 +38,7 @@ const FoodOption = ({
         }
     }
 
-    useEffect(()=>{
-        console.log(totalPrice)
-    }, [totalPrice])
-
     const handleAddAction = (price: string, id: number):void => {
-        // const newPrice = price.replace(',', '')
-        // console.log(newPrice)
         handleAddIntoOrder(id, type, 1)
         const newPrice = parseInt(price.replace(',', ''))
         setTotalPrice(totalPrice + newPrice)

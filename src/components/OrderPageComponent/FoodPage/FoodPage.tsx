@@ -22,17 +22,24 @@ const FoodPage = ({
     id: number
 }) => {
 
-    const {foodList, comboList, selectedSeats, totalPrice} =useContext(GlobalContext)
+    const {foodList, comboList, selectedSeats, totalPrice, userId, handleNotification} =useContext(GlobalContext)
 
-    const handlePay = () => {
-        const respone = orderApi.orderTicket({
-            customerId: 1,
-            totalPrice: totalPrice.toString(),
-            foodIdList: foodList,
-            comboIdList: comboList,
-            movieScheduleId: id,
-            values: selectedSeats
-        })
+    const handlePay = async() => {
+        try {
+            const respone = await orderApi.orderTicket({
+                customerId: userId,
+                totalPrice: totalPrice.toString(),
+                foodIdList: foodList,
+                comboIdList: comboList,
+                movieScheduleId: id,
+                values: selectedSeats
+            })
+
+            handleNotification(0,respone);
+
+        } catch (error) {
+            handleNotification(1, error)
+        }
     }
 
     return (
