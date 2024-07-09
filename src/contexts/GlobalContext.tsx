@@ -93,29 +93,31 @@ const GlobalProvider = ({children} : {children: React.ReactNode}) =>{
     }, [displayMessage])
 
     useEffect(() => {
-        const token = Cookies.get('accessToken');
-        const userId = Cookies.get('userId')
-        setUserId(parseInt(userId!) ?? 0)
-        console.log(needLogin)
-        if (token) {
-            if(loginApi.isTokenExpired(token)) {
-                setNeedLogin(true)
-            }
-            else {
-                const data = loginApi.getUserInfoFromToken(token!)
-                setUserName(data.userName ?? '')
-                setUserId(data.userId ?? 0)
-                setNeedLogin(false)
-                if (pathName && pathName.startsWith('/login')) {
-                    router.push('/');
-                    // router.push('/');
+        try {
+            const token = Cookies.get('accessToken');
+            const userId = Cookies.get('userId')
+            setUserId(parseInt(userId!) ?? 0)
+            console.log(token)
+            console.log(needLogin)
+            if (token) {
+                if(loginApi.isTokenExpired(token)) {
+                    setNeedLogin(true)
+                }
+                else {
+                    const data = loginApi.getUserInfoFromToken(token!)
+                    setUserName(data.userName ?? '')
+                    setUserId(data.userId ?? 0)
+                    setNeedLogin(false)
                 }
             }
-        }
-        else {
+            else {
+                setNeedLogin(true)
+            }
+            router.refresh()
+        } catch (error) {
             setNeedLogin(true)
-            router.push('/login')
         }
+        
     }, [])
 
     useEffect(() => {
