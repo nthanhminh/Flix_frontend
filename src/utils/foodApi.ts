@@ -20,6 +20,7 @@ const getAllFood = async () : Promise<Food[]> => {
 
   return responseData;
   } catch (error) {
+    throw new Error('Network response was not ok ')
     return []
 }
 }
@@ -39,7 +40,8 @@ const getAllCombo = async () : Promise<Combo[]> => {
 
         return responseData;
         } catch (error) {
-        return []
+            throw new Error('Network response was not ok ')
+            return []
     }
 }
 

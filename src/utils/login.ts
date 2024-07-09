@@ -10,7 +10,7 @@ interface CustomJwtPayload extends JwtPayload {
 const login = async(data: {
     userName:string,
     password:string
-}):Promise<string>  => {
+}):Promise<string | null>  => {
     try {
         const options = {
             method: 'POST', 
@@ -31,14 +31,15 @@ const login = async(data: {
         console.log(responseData)
         return responseData.accessToken;
     } catch (error) {
-        throw new Error('Invalid login')
+        // throw new Error('Invalid login')
+        return null
     }
 }
 
 const register = async(data: {
     userName:string,
     password:string
-}):Promise<string>  => {
+}):Promise<string | null>  => {
     try {
         const options = {
             method: 'POST', 
@@ -60,7 +61,8 @@ const register = async(data: {
         console.log(responseData)
         return responseData.accessToken;
     } catch (error) {
-        throw new Error('Invalid login')
+        // throw new Error('Invalid register')
+        return null
     }
 }
 
@@ -71,8 +73,9 @@ const isTokenExpired = (token: string): boolean => {
       const currentTime = Date.now() / 1000;
       return decodedToken.exp! < currentTime;
     } catch (error) {
-      console.error('Error decoding token:', error);
-      return true;
+        // throw new Error('Network response was not ok ')
+    //   console.error('Error decoding token:', error);
+        return true;
     }
 };
 
@@ -90,7 +93,8 @@ const getUserInfoFromToken = (token: string) : {
         return data
     }
     catch (err){
-        console.log(err)
+        // throw new Error('Network response was not ok ')
+        // console.log(err)
         return {
             userName: null,
             userId: null,

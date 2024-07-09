@@ -25,7 +25,6 @@ const NavBar = () => {
                 setSelected(3)
                 break;
         }
-        console.log('userName: ', userName)
     }, [pathName])
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

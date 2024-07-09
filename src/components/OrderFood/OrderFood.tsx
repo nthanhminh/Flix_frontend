@@ -16,35 +16,28 @@ const OrderFoodPage = () => {
 
     const [loading, setLoading] = useState<boolean>(false)
 
-    const {foodList, comboList, totalPrice, handleNotification, userId, setTotalPrice} = useContext(GlobalContext)
+    const {foodList, comboList, totalPrice, handleNotification, userId, setTotalPrice,} = useContext(GlobalContext)
 
     useEffect(() => {
         const fetchData = async () => {
-            setLoading(true)
-            const respone = await Promise.all([
-                foodApi.getAllFood(),
-                foodApi.getAllCombo()
-            ])
-            setFoods(respone[0])
-            setCombos(respone[1])
-            setLoading(false)
+            try {
+                setLoading(true)
+                const respone = await Promise.all([
+                    foodApi.getAllFood(),
+                    foodApi.getAllCombo()
+                ])
+                setFoods(respone[0])
+                setCombos(respone[1])
+                setLoading(false)
+            } catch (error) {
+                handleNotification(1, 'Network error. Please reload the website')
+            }
         }
 
         fetchData()
     }, [])
 
     const handlePay = async () => {
-        // const foods = Object.fromEntries(
-        //     Object.entries(foodList)
-        //         .filter(([key, value]) => value > 0)
-        //         .map(([key, value]) => [parseInt(key), value])
-        // );
-        
-        // const combos = Object.fromEntries(
-        //     Object.entries(foodList)
-        //         .filter(([key, value]) => value > 0)
-        //         .map(([key, value]) => [parseInt(key), value])
-        // );
         try {
             const respone = await orderApi.orderFood({
                 customerId: userId,
@@ -58,7 +51,7 @@ const OrderFoodPage = () => {
             handleNotification(0, respone)
             setTotalPrice(0)
         } catch (error) {
-            handleNotification(1, 'Error occured')
+            handleNotification(1, 'Error occured. Please try again')
         }
 
     }

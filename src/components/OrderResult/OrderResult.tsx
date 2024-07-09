@@ -10,11 +10,12 @@ import Cookies from 'js-cookie'
 import { useRouter } from 'next/navigation'
 const OrderResult = () => {
     const [orders, setOrders] = useState<OrderResponse>({})
-    const {userId} = useContext(GlobalContext)
+    const {userId, handleNotification, setNeedLogin} = useContext(GlobalContext)
     const [loading, setLoading] = useState<boolean>(false)
     const router = useRouter()
     const handleLogout = () => {
         Cookies.set('accessToken', '')
+        setNeedLogin(true)
         router.push('/login')
     }
     useEffect(() => {
@@ -29,7 +30,7 @@ const OrderResult = () => {
                     console.log(response)
                     setLoading(false)
                 } catch (error) {
-                    throw new Error("Error fetching order")
+                    handleNotification(1, 'Network error. Please reload the website')
                 }
             }
            } catch (error) {

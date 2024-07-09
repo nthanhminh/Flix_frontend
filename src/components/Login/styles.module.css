@@ -1,4 +1,11 @@
-@media only screen and (min-width: 320px) and (max-width: 935px) {
+@media only screen and (min-width: 320px) and (max-width: 720px) {
+    .mobile_container{
+        display: block !important;
+    }
+
+    .form_container{
+        display: none !important;
+    }
 }
 
 @media (min-width: 935px) {
@@ -118,6 +125,7 @@
     font-weight: bold;
     font-family: 'Inter';
     text-transform: uppercase;
+    text-align: center;
 }
 
 .text_container{
@@ -132,6 +140,7 @@
     font-weight: w500;
     font-family: 'Inter';
     text-transform: uppercase;
+    text-align: center;
 }
 
 .intro_btn_container{
@@ -224,5 +233,68 @@
     100%{
         transform: translateX(-100%);
         opacity: 1;
+    }
+}
+
+.mobile_container{
+    width: 100%;
+    padding: 0 12px;
+    position: relative;
+    height: 360px;
+    display: none;
+}
+
+.mobile_item_container{
+    /* padding: 8px 12px; */
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 28px;
+    height: 360px;
+    background-color: #FFF;
+    border-radius: 32px;
+    overflow: hidden;
+    position: absolute;
+    left: 0;
+    animation: appearance 0.75s linear forwards;
+}
+
+.mobile_login_form{
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 48px;
+    border-radius: 32px;
+}
+
+.mobile_input_container{
+    width: 100%;
+}
+
+.exchange{
+    font-size: 14px;
+    font-weight: bold;
+    font-family: 'Inter';
+    color: #ccc;
+}
+
+.bold{
+    font-size: 15px;
+    font-weight: bold;
+    font-family: 'Inter';
+    color: #333;
+}
+
+@keyframes appearance {
+    0% {
+        opacity: 0;
+        transform: translateY(-100px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
     }
 }

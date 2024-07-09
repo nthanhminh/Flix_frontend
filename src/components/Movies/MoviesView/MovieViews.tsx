@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import styles from './styles.module.css'
 import Image from 'next/image'
 import MovieItem from '../MovieItem/MovieItem';
@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import { Movie } from '@/utils/typeOfResponse';
 import movieApi from '@/utils/movieApi';
 import LottieControl from '@/components/LoadingPage/LoadingPage';
+import { GlobalContext } from '@/contexts/GlobalContext';
 const MoviesView = () => {
 
     const [currentIndex, setCurrentIndex] = useState<number>(0)
@@ -26,6 +27,8 @@ const MoviesView = () => {
 
     const [loading, setLoading] = useState<boolean>(false)
 
+    const {handleNotification} = useContext(GlobalContext)
+
     const router = useRouter()
 
     const handleResize = () => {
@@ -42,14 +45,18 @@ const MoviesView = () => {
         handleResize()
         window.addEventListener("resize", handleResize)
         const fetchData = async () => {
-            setLoading(true)
-            const respone = await Promise.all([
-                movieApi.fetchMovies(),
-                movieApi.fetchMoviesComingSoon()
-            ])
-            setCurrentMovies(respone[0])
-            setComingMovies(respone[1])
-            setLoading(false)
+            try {
+                setLoading(true)
+                const respone = await Promise.all([
+                    movieApi.fetchMovies(),
+                    movieApi.fetchMoviesComingSoon()
+                ])
+                setCurrentMovies(respone[0])
+                setComingMovies(respone[1])
+                setLoading(false)
+            } catch (error) {
+                handleNotification(1, 'Network error. Please try again')
+            }
         }   
         fetchData()
     },[])

@@ -21,6 +21,7 @@ const orderFood = async (data: OrderFoodRequest) : Promise<string> => {
 
     return responseData;
     } catch (error) {
+        throw new Error('Network response was not ok');
         return ''
     }
 }
@@ -41,7 +42,8 @@ const orderTicket = async (data: OrderTicketRequest) : Promise<string> => {
     
         return responseData;
         } catch (error) {
-        return ''
+            throw new Error('Network response was not ok');
+            return ''
     }
 }
 
@@ -59,7 +61,8 @@ const getTicketPrice = async (filmId:number) : Promise<Ticket[]> => {
         const responseData = await response.json();
         return responseData;
         } catch (error) {
-        return []
+            throw new Error('Network response was not ok');
+            return []
     }
 }
 

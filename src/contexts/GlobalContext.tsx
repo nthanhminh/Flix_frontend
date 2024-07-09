@@ -108,7 +108,7 @@ const GlobalProvider = ({children} : {children: React.ReactNode}) =>{
                 setNeedLogin(false)
                 if (pathName && pathName.startsWith('/login')) {
                     router.push('/');
-                    router.push('/');
+                    // router.push('/');
                 }
             }
         }
@@ -119,14 +119,17 @@ const GlobalProvider = ({children} : {children: React.ReactNode}) =>{
     }, [])
 
     useEffect(() => {
+        if(needLogin){
+            router.push('/login')
+        }
+    },[needLogin])
+
+    useEffect(() => {
         setTotalPrice(0)
         setComboList({})
         setFoodList({})
         setSelectedSeats([])
         setNumberOfSeats(0)
-        if(needLogin){
-            router.push('/login')
-        }
         const token = Cookies.get('accessToken');
         const data = loginApi.getUserInfoFromToken(token!)
         setUserName(data.userName ?? '')

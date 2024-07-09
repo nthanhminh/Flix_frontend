@@ -5,12 +5,13 @@ import Image from 'next/image'
 import ShowTime from '../OrderPageComponent/ShowTime/ShowTime'
 import { useRouter } from 'next/navigation'
 import { Food, Movie, MovieSchedule, MovieScheduleDate, Ticket } from '@/utils/typeOfResponse'
-import { use, useEffect, useState } from 'react'
+import { use, useContext, useEffect, useState } from 'react'
 import movieApi from '@/utils/movieApi'
 import foodApi from '@/utils/foodApi'
 import FoodPage from '../OrderPageComponent/FoodPage/FoodPage'
 import orderApi from '@/utils/order'
 import LottieControl from '../LoadingPage/LoadingPage'
+import { GlobalContext } from '@/contexts/GlobalContext'
 const OrderMovieTicket = ({id} : {id:number}) => {
 
     const router = useRouter()
@@ -20,22 +21,27 @@ const OrderMovieTicket = ({id} : {id:number}) => {
     const [combo, setCombo] = useState<Food[]>([])
     const [prices, setPrices] = useState<Ticket[]>([])
     const [loading, setLoading] = useState<boolean>(false)
+    const {handleNotification} = useContext(GlobalContext)
     useEffect(()=>{
         const fetchData = async(id: number) => {
-            setLoading(true)
-            const respone = await Promise.all([
-                movieApi.fetchMovieById(id),
-                movieApi.fetchMovieSchedule(id),
-                foodApi.getAllFood(),
-                foodApi.getAllCombo(),
-                orderApi.getTicketPrice(id)
-            ])
-            setMovie(respone[0])
-            setMovieScheduleDate(respone[1])
-            setFood(respone[2])
-            setCombo(respone[3])
-            setPrices(respone[4])
-            setLoading(false)
+            try {
+                setLoading(true)
+                const respone = await Promise.all([
+                    movieApi.fetchMovieById(id),
+                    movieApi.fetchMovieSchedule(id),
+                    foodApi.getAllFood(),
+                    foodApi.getAllCombo(),
+                    orderApi.getTicketPrice(id)
+                ])
+                setMovie(respone[0])
+                setMovieScheduleDate(respone[1])
+                setFood(respone[2])
+                setCombo(respone[3])
+                setPrices(respone[4])
+                setLoading(false)
+            } catch (error) {
+                handleNotification(0, 'Network error. Please reload the website')
+            }
         }
 
         fetchData(id)

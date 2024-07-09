@@ -17,7 +17,7 @@ const fetchMovies = async () : Promise<Movie[]> => {
       const movies = await response.json();
       return movies;
     } catch (error) {
-      console.error('Fetch error:', error);
+      throw new Error('Network response was not ok');
       return [];
     }
 };
@@ -35,6 +35,7 @@ const fetchMoviesComingSoon = async () : Promise<Movie[]> => {
     const movies = await response.json();
     return movies;
   } catch (error) {
+    throw new Error('Network response was not ok');
     return [];
   }
 };
@@ -52,6 +53,7 @@ const getAllCurrentFilms = async () : Promise<Movie[]> => {
     const movies = await response.json();
     return movies;
   } catch (error) {
+    throw new Error('Network response was not ok');
     console.error('Fetch error:', error);
     return [];
   }
@@ -70,6 +72,7 @@ const getAllComingFilms = async () : Promise<Movie[]> => {
     const movies = await response.json();
     return movies;
   } catch (error) {
+    throw new Error('Network response was not ok');
     console.error('Fetch error:', error);
     return [];
   }
@@ -88,6 +91,7 @@ const fetchMovieById = async (id : number): Promise<Movie | null> => {
       const movies = await response.json();
       return movies;
       } catch (error) {
+        throw new Error('Network response was not ok');
         console.error('Fetch error:', error);
         return null;
       }
@@ -109,6 +113,7 @@ const fetchMovieSchedule = async (id : number): Promise<MovieScheduleDate | null
 
   return responseData;
   } catch (error) {
+    throw new Error('Network response was not ok');
     return null
   }
 }
@@ -127,6 +132,7 @@ const fetchDataAbouSeat = async (movieScheduleId: number) : Promise<string[]> =>
 
   return responseData;
   } catch (error) {
+    throw new Error('Network response was not ok');
     return []
 }
 }
@@ -144,6 +150,7 @@ const searchMovie = async (search: string) : Promise<Movie[]> => {
     const movies = await response.json();
     return movies;
   } catch (error) {
+    throw new Error('Network response was not ok');
     console.error('Fetch error:', error);
     return [];
   }
@@ -162,6 +169,7 @@ const getOrderFromUserId = async (userId: number): Promise<OrderResponse> => {
     const movies = await response.json();
     return movies;
   } catch (error) {
+    throw new Error('Network response was not ok');
     console.error('Fetch error:', error);
     return {};
   }

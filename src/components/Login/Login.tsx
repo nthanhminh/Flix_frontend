@@ -8,9 +8,9 @@ import { GlobalContext } from '@/contexts/GlobalContext';
 
 const Login = () => {
 
-    const {setNeedLogin, setUserName, setUserId, setAccessToken} = useContext(GlobalContext)
+    const {setNeedLogin, setUserName, setUserId, setAccessToken, handleNotification} = useContext(GlobalContext)
     
-    const [login, setLogin] = useState<boolean>(false)
+    const [login, setLogin] = useState<boolean>(true)
 
     const inputLoginUsername = useRef<HTMLInputElement>(null)
 
@@ -20,6 +20,14 @@ const Login = () => {
 
     const inputRegisterPassword = useRef<HTMLInputElement>(null)
 
+    const inputLoginUsernameMobile = useRef<HTMLInputElement>(null)
+
+    const inputRegisterUsernameMobile = useRef<HTMLInputElement>(null)
+
+    const inputLoginPasswordMobile = useRef<HTMLInputElement>(null)
+
+    const inputRegisterPasswordMobile = useRef<HTMLInputElement>(null)
+
     const router = useRouter()
 
 
@@ -28,17 +36,18 @@ const Login = () => {
         setLogin(!login)
     }
 
-    const handleLoginAction = async() => {
+    const handleLoginAction = async(userName: string, password: string) => {
 
         console.log(inputLoginUsername.current?.value, inputLoginPassword.current?.value)
 
         const accessToken = await loginApi.login({
-            userName: inputLoginUsername.current?.value ?? '',
-            password: inputLoginPassword.current?.value ?? '',
+            userName: userName,
+            password: password,
         })
 
         if(accessToken){
-            setUserName(inputLoginUsername.current?.value!)
+            handleNotification(0, 'Login successfully')
+            setUserName(userName)
             setAccessToken(accessToken)
             Cookies.set('accessToken', accessToken, {
                 expires: 7, 
@@ -51,18 +60,21 @@ const Login = () => {
             setUserId(data.userId ?? 0)
             setNeedLogin(false)
             router.push('/')
+        } else {
+            handleNotification(1, 'Error occurred. Please try again')
         }
     }
 
-    const handleRegisterAction = async() => {
+    const handleRegisterAction = async(userName: string, password: string) => {
         console.log(inputRegisterUsername.current?.value, inputRegisterPassword.current?.value)
         const accessToken = await loginApi.register({
-            userName: inputRegisterUsername.current?.value ?? '',
-            password: inputRegisterPassword.current?.value ?? '',
+            userName: userName,
+            password: password,
         })
         console.log(accessToken)
         if(accessToken){
-            setUserName(inputLoginUsername.current?.value!)
+            handleNotification(0, 'Register successfully')
+            setUserName(userName)
             Cookies.set('accessToken', accessToken, {
                 expires: 7, 
             });
@@ -73,6 +85,8 @@ const Login = () => {
             setUserId(data.userId ?? 0)
             setNeedLogin(false)
             router.push('/')
+        } else {
+            handleNotification(1, 'Error occurred. Please try again')
         }
     }
 
@@ -91,7 +105,7 @@ const Login = () => {
                             <input ref={inputLoginPassword} className={styles.input} type="password" placeholder='Password'/>
                         </div>
                         <div className={styles.btn_container}>
-                            <button className={styles.btn} onClick={() => {handleLoginAction()}}>Login</button>
+                            <button className={styles.btn} onClick={() => {handleLoginAction(inputLoginUsername.current?.value!, inputLoginPassword.current?.value!)}}>Login</button>
                         </div>
                     </div>
                     <div className={`${styles.intro} ${styles.login_intro_ani} ${!login ? styles.disable : ''}`}>
@@ -120,7 +134,7 @@ const Login = () => {
                             <input ref={inputRegisterPassword} className={styles.input} type="password" placeholder='Password'/>
                         </div>
                         <div className={styles.btn_container}>
-                            <button className={styles.btn} onClick={() => {handleRegisterAction()}}>Register</button>
+                            <button className={styles.btn} onClick={() => {handleRegisterAction(inputRegisterUsername.current?.value!, inputRegisterPassword.current?.value!)}}>Register</button>
                         </div>
                     </div>
                     <div className={`${styles.intro} ${styles.register_intro_ani} ${login ? styles.disable : ''}`}>
@@ -138,6 +152,49 @@ const Login = () => {
                     </div>
                 </div>
             </div>
+
+            <div className={styles.mobile_container}>
+                <div className={`${styles.mobile_item_container} ${!login ? styles.disable : ''}`}>
+                    <div className={`${styles.mobile_login_form}`}>
+                        <h4 className={styles.header}>
+                            Login
+                        </h4>
+                        <div className={styles.mobile_input_container}>
+                            <input ref={inputLoginUsernameMobile} className={styles.input} type="text" placeholder='UserName'/>
+                        </div>
+                        <div className={styles.mobile_input_container}>
+                            <input ref={inputLoginPasswordMobile} className={styles.input} type="password" placeholder='Password'/>
+                        </div>
+                        <div className={styles.btn_container}>
+                            <button className={styles.btn} onClick={() => {handleLoginAction(inputLoginUsernameMobile.current?.value ?? '', inputLoginPasswordMobile.current?.value ?? '')}}>Login</button>
+                        </div>
+                        <div className={styles.btn_container}>
+                            <p className={styles.exchange}>If you do not have an account, <span className={styles.bold} onClick={() => {handleLogin()}}>Register</span> </p>
+                        </div>
+                    </div>
+
+                </div>
+                <div className={`${styles.mobile_item_container} ${login ? styles.disable : ''}`}>
+                    <div className={`${styles.mobile_login_form}`}>
+                        <h4 className={styles.header}>
+                            Register
+                        </h4>
+                        <div className={styles.mobile_input_container}>
+                            <input ref={inputRegisterUsernameMobile} className={styles.input} type="text" placeholder='UserName'/>
+                        </div>
+                        <div className={styles.mobile_input_container}>
+                            <input ref={inputRegisterPasswordMobile} className={styles.input} type="password" placeholder='Password'/>
+                        </div>
+                        <div className={styles.btn_container}>
+                            <button className={styles.btn} onClick={() => {handleRegisterAction(inputRegisterUsernameMobile.current?.value ?? '', inputRegisterPasswordMobile.current?.value ?? '')}}>Register</button>
+                        </div>
+                        <div className={styles.btn_container}>
+                            <p className={styles.exchange}>If you have an account, <span className={styles.bold} onClick={() => {handleLogin()}}>Login</span> </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     )
 }

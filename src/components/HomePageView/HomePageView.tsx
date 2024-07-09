@@ -1,6 +1,6 @@
 'use client'
 
-import { FC, useEffect, useState } from 'react'
+import { FC, useContext, useEffect, useState } from 'react'
 import styles from './styles.module.css'
 import AnotherService from '../HomePageViewChildren/AnotherService/AnotherService';
 import Services from '../HomePageViewChildren/Services/Services';
@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation';
 import movieApi from '@/utils/movieApi';
 import { Movie } from '@/utils/typeOfResponse';
 import LottieControl from '../LoadingPage/LoadingPage';
+import { GlobalContext } from '@/contexts/GlobalContext';
 
 interface HomePageProps{
 }
@@ -16,20 +17,25 @@ interface HomePageProps{
 const HomePageView: FC<HomePageProps> = () => {
     const [movies, setMovies] = useState<Movie[]>([])
     const [loading, setLoading] = useState<boolean>(false)
+    const {handleNotification} = useContext(GlobalContext)
     const router = useRouter()
 
     useEffect( () => {
         const fetchData = async () => {
-            setLoading(true)
-            const respone: Movie[] = await movieApi.fetchMovies()
-            const tmp: Movie[] = []
-            for(let i = 0; i < respone.length; i++){
-                if(i<6){
-                    tmp.push(respone[i])
+            try {
+                setLoading(true)
+                const respone: Movie[] = await movieApi.fetchMovies()
+                const tmp: Movie[] = []
+                for(let i = 0; i < respone.length; i++){
+                    if(i<6){
+                        tmp.push(respone[i])
+                    }
                 }
+                setMovies(tmp)
+                setLoading(false)
+            } catch (error) {
+                handleNotification(1, 'Network error. Please reload the website')
             }
-            setMovies(tmp)
-            setLoading(false)
         }
 
         fetchData()
