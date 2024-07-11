@@ -5,6 +5,9 @@ FLIX-FRONTEND serves as the client interface for users interacting with FLIX-BAC
 ## LINK: 
 - **https://flix-frontend-bice.vercel.app**
 
+## Notes:
+- You can use the userName: Nicky10 and password: 123456789 if you don't want to register.
+
 ## Description
 
 ### Actor: 
