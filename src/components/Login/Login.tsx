@@ -36,6 +36,18 @@ const Login = () => {
         setLogin(!login)
     }
 
+    const handleKeyDownLogin = (event: React.KeyboardEvent<HTMLInputElement>): void => {
+        if (event.key === 'Enter') {
+            handleLoginAction(inputLoginUsername.current?.value!, inputLoginPassword.current?.value!)
+        }
+    };
+
+    const handleKeyDownRegister = (event: React.KeyboardEvent<HTMLInputElement>): void => {
+        if (event.key === 'Enter') {
+            handleLoginAction(inputRegisterUsername.current?.value!, inputRegisterPassword.current?.value!)
+        }
+    };
+
     const handleLoginAction = async(userName: string, password: string) => {
 
         console.log(inputLoginUsername.current?.value, inputLoginPassword.current?.value)
@@ -102,7 +114,7 @@ const Login = () => {
                             <input ref={inputLoginUsername} className={styles.input} type="text" placeholder='UserName'/>
                         </div>
                         <div className={styles.input_container}>
-                            <input ref={inputLoginPassword} className={styles.input} type="password" placeholder='Password'/>
+                            <input onKeyDown={handleKeyDownLogin} ref={inputLoginPassword} className={styles.input} type="password" placeholder='Password'/>
                         </div>
                         <div className={styles.btn_container}>
                             <button className={styles.btn} onClick={() => {handleLoginAction(inputLoginUsername.current?.value!, inputLoginPassword.current?.value!)}}>Login</button>
@@ -131,7 +143,7 @@ const Login = () => {
                             <input ref={inputRegisterUsername} className={styles.input} type="text" placeholder='UserName'/>
                         </div>
                         <div className={styles.input_container}>
-                            <input ref={inputRegisterPassword} className={styles.input} type="password" placeholder='Password'/>
+                            <input onKeyDown={handleKeyDownRegister} ref={inputRegisterPassword} className={styles.input} type="password" placeholder='Password'/>
                         </div>
                         <div className={styles.btn_container}>
                             <button className={styles.btn} onClick={() => {handleRegisterAction(inputRegisterUsername.current?.value!, inputRegisterPassword.current?.value!)}}>Register</button>
